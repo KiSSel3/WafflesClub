@@ -8,6 +8,7 @@ public class User
     [MinLength(4)]
     [Required]
     public string Login { get; set; }
+    public string Name { get; set; }
     [MinLength(5)]
     [Required]
     public string Password { get; set; }
