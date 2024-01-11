@@ -1,4 +1,4 @@
-﻿namespace Waffles_Club.Data.Entity;
+﻿namespace Waffles_Club.Data.Models;
 
 public class OrderWaffle
 {
