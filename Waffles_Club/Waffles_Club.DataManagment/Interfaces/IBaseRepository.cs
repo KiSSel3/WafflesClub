@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Waffles_Club.DataManagment.Interfaces;
 
-namespace Waffles_Club.DataManagment.Interfaces
+public interface IBaseRepository<T>
 {
-    internal class IBaseRepository
-    {
-    }
+    Task Create(T? entity);
+    Task<List<T>> GetAll();
+    Task Delete(T? entity);
+    Task<T> Update(T entity);
+    Task<T> GetById(Guid id);
 }
