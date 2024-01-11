@@ -1,10 +1,12 @@
 using NLog;
 using NLog.Web;
+using Waffles_Club.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.AddDataBase();
 
 var app = builder.Build();
 
