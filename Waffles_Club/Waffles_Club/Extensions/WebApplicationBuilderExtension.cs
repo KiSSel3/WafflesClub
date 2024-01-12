@@ -5,12 +5,34 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NLog.Web;
 using Waffles_Club.DataManagment;
+using Waffles_Club.DataManagment.Implementations;
+using Waffles_Club.DataManagment.Interfaces;
 
 namespace Waffles_Club.Extensions;
 
 public static class WebApplicationBuilderExtension
 {
-    public static void AddAuthentication(this WebApplicationBuilder builder)
+	public static void AddServices(this WebApplicationBuilder builder)
+    {
+        //Default
+		builder.Services.AddControllersWithViews();
+
+		//Repository
+		builder.Services.AddScoped<ICartRepository, CartRepository>();
+		builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+		builder.Services.AddScoped<IOrderWaffleRepository, OrderWaffleRepository>();
+
+		builder.Services.AddScoped<IUserRepository, UserRepository>();
+		builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+        builder.Services.AddScoped<IRoleUserRepository, RoleUserRepository>();
+
+        builder.Services.AddScoped<IWaffleRepository, WaffleRepository>();
+        builder.Services.AddScoped<IWaffleTypeRepository, IWaffleTypeRepository>();
+		builder.Services.AddScoped<IFillingTypeRepository, FillingTypeRepository>();
+	}
+
+
+	public static void AddAuthentication(this WebApplicationBuilder builder)
     {
         builder.Services.AddAuthentication(opt =>
             {

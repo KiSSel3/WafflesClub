@@ -4,8 +4,8 @@ using Waffles_Club.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.AddServices();
+
 builder.AddDataBase();
 builder.AddAuthentication();
 builder.AddLogging();
