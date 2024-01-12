@@ -57,6 +57,17 @@ namespace Waffles_Club.Service.Services.Implementations
 			return waffleTypes;
 		}
 
+		public async Task<WaffleType> GetById(Guid waffleTypeId)
+		{
+			var waffleTypeById = await _waffleTypeRepository.GetById(waffleTypeId);
+			if (waffleTypeById == null)
+			{
+				throw new Exception("No waffle type");
+			}
+
+			return waffleTypeById;
+		}
+
 		public async Task<WaffleType> UpdateAsync(Guid waffleTypeId, TypeViewModel viewModel)
 		{
 			var waffleTypeByNormalizedName = await _waffleTypeRepository.GetByNormalizedName(viewModel.NormalizedName);

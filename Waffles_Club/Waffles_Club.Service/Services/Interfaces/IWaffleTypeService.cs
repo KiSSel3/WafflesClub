@@ -14,5 +14,6 @@ namespace Waffles_Club.Service.Services.Interfaces
 		public Task<WaffleType> CreateAsync(TypeViewModel viewModel);
 		public Task<WaffleType> UpdateAsync(Guid waffleTypeId, TypeViewModel viewModel);
 		public Task<WaffleType> DeleteAsync(Guid waffleTypeId);
+		public Task<WaffleType> GetById(Guid waffleTypeId);
 	}
 }
