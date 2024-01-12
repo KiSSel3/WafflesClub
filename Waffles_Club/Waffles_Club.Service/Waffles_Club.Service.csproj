@@ -17,4 +17,9 @@
     <ProjectReference Include="..\Waffles_Club.Data\Waffles_Club.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Implementations\" />
+    <Folder Include="Services\Interfaces\" />
+  </ItemGroup>
+
 </Project>
