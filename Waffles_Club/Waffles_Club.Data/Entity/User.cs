@@ -2,9 +2,8 @@
 
 namespace Waffles_Club.Data.Entity;
 
-public class User
+public class User : BaseEntity
 {
-    public Guid Id { get; set; }
     [MinLength(4)]
     [Required]
     public string Login { get; set; }

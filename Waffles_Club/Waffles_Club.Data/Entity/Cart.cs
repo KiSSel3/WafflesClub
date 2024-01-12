@@ -1,8 +1,7 @@
 ﻿namespace Waffles_Club.Data.Entity;
 
-public class Cart
+public class Cart : BaseEntity
 {
-    public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public Guid WaffleId { get; set; }
 }

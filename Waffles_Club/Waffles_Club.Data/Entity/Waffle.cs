@@ -1,8 +1,7 @@
 ﻿namespace Waffles_Club.Data.Entity;
 
-public class Waffle
+public class Waffle : BaseEntity
 {
-   public Guid Id { get; set; }
    public Guid TypeId { get; set; }
    public Guid FillingTypeId { get; set; }
    public string Name { get; set; }
