@@ -2,7 +2,7 @@
 
 namespace Waffles_Club.DataManagment.Interfaces;
 
-public interface IWaffleTypeRepository
+public interface IWaffleTypeRepository:IBaseRepository<WaffleType>
 {
-    WaffleType GetByNormalizedName(string normalizedName);
+    Task<WaffleType> GetByNormalizedName(string normalizedName);
 }

@@ -4,5 +4,5 @@ namespace Waffles_Club.DataManagment.Interfaces;
 
 public interface IOrderWaffleRepository:IBaseRepository<OrderWaffle>
 {
-    List<OrderWaffle> GetByOrderId(Guid orderId);
+    Task<List<OrderWaffle>> GetByOrderId(Guid orderId);
 }

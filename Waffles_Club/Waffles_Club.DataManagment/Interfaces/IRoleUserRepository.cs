@@ -4,6 +4,6 @@ namespace Waffles_Club.DataManagment.Interfaces;
 
 public interface IRoleUserRepository:IBaseRepository<RoleUser>
 {
-    List<RoleUser> GetByUserId(Guid userId);
-    List<RoleUser> GetByRoleId(Guid roleId);
+    Task<List<RoleUser>> GetByUserId(Guid userId);
+    Task<List<RoleUser>> GetByRoleId(Guid roleId);
 }

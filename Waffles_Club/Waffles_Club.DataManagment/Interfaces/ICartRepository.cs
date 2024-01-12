@@ -4,5 +4,5 @@ namespace Waffles_Club.DataManagment.Interfaces;
 
 public interface ICartRepository:IBaseRepository<Cart>
 {
-    Cart GetByUserId(Guid userId);
+    Task<Cart> GetByUserId(Guid userId);
 }

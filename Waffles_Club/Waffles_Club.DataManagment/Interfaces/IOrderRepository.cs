@@ -6,6 +6,6 @@ namespace Waffles_Club.DataManagment.Interfaces;
 
 public interface IOrderRepository:IBaseRepository<Order>
 {
-    List<Order> GetByUserId(Guid userId);
-    List<Order> GetByStatus(OrderStatus status);
+    Task<List<Order>> GetByUserId(Guid userId);
+    Task<List<Order>> GetByStatus(OrderStatus status);
 }

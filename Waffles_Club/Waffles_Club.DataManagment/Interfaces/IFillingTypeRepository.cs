@@ -4,5 +4,5 @@ namespace Waffles_Club.DataManagment.Interfaces;
 
 public interface IFillingTypeRepository:IBaseRepository<FillingType>
 {
-    FillingType GetByNormalizedName(string normalizedName);
+    Task<FillingType> GetByNormalizedName(string normalizedName);
 }
