@@ -1,0 +1,21 @@
+﻿@model Waffles_Club.Shared.ViewModels.HomeIndexViewModel
+
+@{
+    int prevPage = (Model.Waffles.CurrentPage == 1) ? 1 : Model.Waffles.CurrentPage - 1;
+    int nextPage = (Model.Waffles.CurrentPage == Model.Waffles.TotalPages) ? Model.Waffles.TotalPages : Model.Waffles.CurrentPage + 1;
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <p>dslf;sadfasdf</p>
+            <!-- Левая часть занимает 1/4 экрана -->
+            <!-- Ваш контент для левой части -->
+        </div>
+        <div class="col-md-9">
+            <p>dslf;sadfasdffgbbbfdgbdfgbdfgbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</p>
+            <!-- Правая часть занимает 3/4 экрана -->
+            <!-- Ваш контент для правой части -->
+        </div>
+    </div>
+</div>
