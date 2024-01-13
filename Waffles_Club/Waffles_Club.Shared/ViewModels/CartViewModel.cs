@@ -4,4 +4,5 @@ public class CartViewModel
 {
     public string UserId { get; set; }
     public Guid WaffleId { get; set; }
+    public int Count { get; set; }
 }

@@ -1,15 +1,15 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Waffles_Club.Data.Entity;
+using Waffles_Club.Service.Services.Interfaces;
 
-namespace Waffles_Club.Service.Services;
+namespace Waffles_Club.Service.Services.Implementations;
 
-public class TokenService
+public class TokenService:ITokenService
 {
     private readonly IConfiguration _configuration;
     private readonly ILogger<TokenService> _logger;
@@ -34,17 +34,6 @@ public class TokenService
         return claims;
     }
 
-    public string GenerateRefreshToken()
-    {
-        int size = 64;
-        var randomNumber = new byte[size];
-        using (var rng = RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
-        }
-    }
-    
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]));

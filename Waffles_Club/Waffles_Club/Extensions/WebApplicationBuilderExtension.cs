@@ -47,33 +47,46 @@ public static class WebApplicationBuilderExtension
 	}
 
 
-	public static void AddAuthentication(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddAuthentication(opt =>
+	   public static void AddAuthentication(this WebApplicationBuilder builder)
+        {
+            var jwtSettings = builder.Configuration.GetSection("Jwt");
+    
+            var key = Encoding.UTF8.GetBytes(jwtSettings["Secret"]);
+            var issuer = jwtSettings["Issuer"];
+            var audience = jwtSettings["Audience"];
+    
+            builder.Services.AddAuthentication(options =>
             {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
             {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateLifetime = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"]!,
-                    ValidAudience = builder.Configuration["Jwt:Audience"]!,
-                    IssuerSigningKey =
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!))
+                    ValidIssuer = issuer,
+                    ValidAudience = audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
                 };
             });
-        builder.Services.AddAuthorization(options => options.DefaultPolicy =
-            new AuthorizationPolicyBuilder
-                    (JwtBearerDefaults.AuthenticationScheme)
-                .RequireAuthenticatedUser()
-                .Build());
-    }
+            builder.Services.AddAuthorization(options => options.DefaultPolicy =
+                new AuthorizationPolicyBuilder
+                        (JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build());
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminArea", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireRole("Admin");
+                });
+            });
+        }
     public static void AddLogging(this WebApplicationBuilder builder)
     {
         builder.Logging.ClearProviders();
