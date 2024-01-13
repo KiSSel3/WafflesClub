@@ -66,13 +66,28 @@ namespace Waffles_Club.Service.Services.Implementations
 			return waffleById;
 		}
 
-		public async Task<PaginatedList<Waffle>> GetWaffleListAsync(string? waffleTypeNormalizedName = null, string? fillingTypeNormalizedName = null, int pageNow = 1, int pageSize = 6)
+		public async Task<PaginatedList<Waffle>> GetWaffleListAsync(string? waffleName = null, Guid? waffleTypeId = null, Guid? fillingTypeId = null, int pageNow = 1, int pageSize = 6)
 		{
 			var paginatedList = new PaginatedList<Waffle>();
 
-			var allWaffles = await _waffleRepository.GetAll();
+			var waffles = await _waffleRepository.GetAll();
 
-			var countWaffles = allWaffles.Count;
+			if(waffleTypeId != null)
+			{
+				waffles = waffles.Where(w => w.TypeId.Equals(waffleTypeId)).ToList();
+			}
+
+			if(fillingTypeId != null)
+			{
+				waffles = waffles.Where(w => w.FillingTypeId.Equals(fillingTypeId)).ToList();
+			}
+
+			if(waffleName != null)
+			{
+				waffles = waffles.Where(w => w.Name.ToLower().Contains(waffleName.ToLower())).ToList();
+			}
+
+			var countWaffles = waffles.Count;
 
 			if(countWaffles == 0)
 			{
@@ -86,7 +101,7 @@ namespace Waffles_Club.Service.Services.Implementations
 				throw new Exception("No such page");
 			}
 
-			paginatedList.Items = allWaffles.Skip((pageNow - 1) * pageSize).Take(pageSize).ToList();
+			paginatedList.Items = waffles.Skip((pageNow - 1) * pageSize).Take(pageSize).ToList();
 			paginatedList.CurrentPage = pageNow;
 			paginatedList.TotalPages = totalPages;
 

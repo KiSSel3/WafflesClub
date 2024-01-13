@@ -11,7 +11,7 @@ namespace Waffles_Club.Service.Services.Interfaces
 {
 	public interface IWaffleService
 	{
-		public Task<PaginatedList<Waffle>> GetWaffleListAsync(string? waffleTypeNormalizedName = null, string? fillingTypeNormalizedName = null, int pageNow = 1, int pageSize = 6);
+		public Task<PaginatedList<Waffle>> GetWaffleListAsync(string? waffleName, Guid? waffleTypeId, Guid? fillingTypeId, int pageNow, int pageSize);
 		public Task<Waffle> GetWaffleByIdAsync(Guid waffleId);
 		public Task<Waffle> DeleteWaffleAsync(Guid waffleId);
 		public Task<Waffle> CreateWaffleAsync(WaffleViewModel viewModel);
