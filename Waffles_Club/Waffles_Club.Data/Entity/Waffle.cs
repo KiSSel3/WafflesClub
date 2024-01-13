@@ -9,4 +9,5 @@ public class Waffle : BaseEntity
    public string ImageUrl { get; set; }
    public int CountInPackage { get; set; }
    public decimal Price { get; set; }
+   public double Weight { get; set; }
 }

@@ -7,6 +7,7 @@
         <entry key="Common:c09a6a92-70b1-4c6a-b79a-dc445aa3cc90:dbContext" value="Waffles_Club.DataManagment.ApplicationDbContext" />
         <entry key="Common:noBuild" value="false" />
         <entry key="Common:outputFolder" value="Migrations" />
+        <entry key="Common:useDefaultConnection" value="true" />
       </map>
     </option>
   </component>
