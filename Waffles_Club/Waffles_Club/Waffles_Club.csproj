@@ -27,6 +27,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Waffles_Club.DataManagment\Waffles_Club.DataManagment.csproj" />
+    <ProjectReference Include="..\Waffles_Club.Data\Waffles_Club.Data.csproj" />
+    <ProjectReference Include="..\Waffles_Club.Service\Waffles_Club.Service.csproj" />
+    <ProjectReference Include="..\Waffles_Club.Shared\Waffles_Club.Shared.csproj" />
   </ItemGroup>
 
 </Project>
