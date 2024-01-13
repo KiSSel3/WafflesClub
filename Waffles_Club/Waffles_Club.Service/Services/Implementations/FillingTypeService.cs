@@ -21,7 +21,6 @@ namespace Waffles_Club.Service.Services.Implementations
 		public async Task<FillingType> CreateAsync(TypeViewModel viewModel)
 		{
 			var fillingTypeByNormalizedName = await _fillingTypeRepository.GetByNormalizedName(viewModel.NormalizedName);
-
 			if (fillingTypeByNormalizedName != null)
 			{
 				throw new Exception("A filling type already exists");

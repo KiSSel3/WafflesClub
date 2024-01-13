@@ -5,5 +5,5 @@ namespace Waffles_Club.DataManagment.Interfaces;
 
 public interface IRoleRepository:IBaseRepository<Role>
 {
-    Task<Role> GetByNormalizedName(string normalizedName);
+    Task<Role> GetByName(string name);
 }

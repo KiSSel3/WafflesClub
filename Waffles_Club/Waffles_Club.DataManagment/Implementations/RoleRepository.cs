@@ -42,8 +42,8 @@ public class RoleRepository : IRoleRepository
         return await _dbContext.Roles.FindAsync(id);
     }
 
-    public async Task<Role> GetByNormalizedName(string normalizedName)
+    public async Task<Role> GetByName(string name)
     {
-        return await _dbContext.Roles.FirstOrDefaultAsync(role => role.NormalizedName == normalizedName);
+        return await _dbContext.Roles.FirstOrDefaultAsync(role => role.Name == name);
     }
 }

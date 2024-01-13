@@ -28,7 +28,7 @@ public class TokenService
             new Claim(ClaimTypes.Name, user.Name),
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Email, user.Name),
-            new Claim(ClaimTypes.Role, string.Join(" ", roles.Select(x => x.NormalizedName))),
+            new Claim(ClaimTypes.Role, string.Join(" ", roles.Select(x => x.Name))),
         };
         _logger.LogInformation("Create claims");
         return claims;
