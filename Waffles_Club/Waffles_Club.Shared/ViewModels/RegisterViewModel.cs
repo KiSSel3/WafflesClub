@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Waffles_Club.Data.ViewModels
+namespace Waffles_Club.Shared.ViewModels
 {
 	public class RegisterViewModel
 	{

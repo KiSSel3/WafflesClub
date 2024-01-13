@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Waffles_Club.Data.Entity;
-using Waffles_Club.Data.ViewModels;
+using Waffles_Club.Shared.ViewModels;
 using Waffles_Club.DataManagment.Interfaces;
 using Waffles_Club.Shared.Mappers;
 

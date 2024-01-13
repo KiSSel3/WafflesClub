@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Waffles_Club.Data.Entity;
-using Waffles_Club.Data.Helpers;
-using Waffles_Club.Data.ViewModels;
+using Waffles_Club.Shared.Helpers;
+using Waffles_Club.Shared.ViewModels;
 using Waffles_Club.DataManagment.Interfaces;
 using Waffles_Club.Service.Services.Interfaces;
 

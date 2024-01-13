@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Waffles_Club.Data.Helpers
+namespace Waffles_Club.Shared.Helpers
 {
 	public class PaginatedList<T> where T : class
  	{

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Waffles_Club.Data.Entity;
-using Waffles_Club.Data.ViewModels;
+using Waffles_Club.Shared.ViewModels;
 
 namespace Waffles_Club.Service.Services.Interfaces
 {

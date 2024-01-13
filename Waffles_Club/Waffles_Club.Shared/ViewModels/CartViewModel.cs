@@ -1,4 +1,4 @@
-﻿namespace Waffles_Club.Data.ViewModels;
+﻿namespace Waffles_Club.Shared.ViewModels;
 
 public class CartViewModel
 {
