@@ -57,7 +57,7 @@ namespace Waffles_Club.Service.Services.Implementations
 			return fillingTypes;
 		}
 
-		public async Task<FillingType> GetById(Guid fillingTypeId)
+		public async Task<FillingType> GetByIdAsync(Guid fillingTypeId)
 		{
 			var fillingTypeById = await _fillingTypeRepository.GetById(fillingTypeId);
 			if (fillingTypeById == null)

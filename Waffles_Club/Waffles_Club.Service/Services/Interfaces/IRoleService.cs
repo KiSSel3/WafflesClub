@@ -14,7 +14,7 @@ namespace Waffles_Club.Service.Services.Interfaces
 		public Task<Role> CreateAsync(string name);
 		public Task<Role> UpdateAsync(Guid roleId, string name);
 		public Task<Role> DeleteAsync(Guid roleId);
-		public Task<Role> GetById(Guid roleId);
-		public Task<Role> GetByName(string name);
+		public Task<Role> GetByIdAsync(Guid roleId);
+		public Task<Role> GetByNameAsync(string name);
 	}
 }

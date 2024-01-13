@@ -51,7 +51,7 @@ namespace Waffles_Club.Service.Services.Implementations
 			return roles;
 		}
 
-		public async Task<Role> GetById(Guid roleId)
+		public async Task<Role> GetByIdAsync(Guid roleId)
 		{
 			var roleById = await _roleRepository.GetById(roleId);
 			if (roleById == null)
@@ -62,7 +62,7 @@ namespace Waffles_Club.Service.Services.Implementations
 			return roleById;
 		}
 
-		public async Task<Role> GetByName(string name)
+		public async Task<Role> GetByNameAsync(string name)
 		{
 			var roleByName = await _roleRepository.GetByName(name);
 			if (roleByName == null)

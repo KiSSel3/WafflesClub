@@ -57,7 +57,7 @@ namespace Waffles_Club.Service.Services.Implementations
 			return waffleTypes;
 		}
 
-		public async Task<WaffleType> GetById(Guid waffleTypeId)
+		public async Task<WaffleType> GetByIdAsync(Guid waffleTypeId)
 		{
 			var waffleTypeById = await _waffleTypeRepository.GetById(waffleTypeId);
 			if (waffleTypeById == null)
