@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Waffles_Club.Data.Entity;
 using Waffles_Club.Service.Services.Interfaces;
 using Waffles_Club.Shared.ViewModels;
 
@@ -21,8 +22,38 @@ namespace Waffles_Club.Controllers
 
 			_configuration = configuration;
 		}
-		
-        [HttpGet]
+
+		[HttpGet]
+        public async Task<IActionResult> Index()
+		{
+            try
+            {
+                var viewModel = new HomePageViewModel();
+                var waffleList = await _waffleService.GetWaffleListAsync();
+                viewModel.Waffles = waffleList;
+
+                var waffleTypeList = await _waffleTypeService.GetAllAsync();
+                viewModel.WaffleTypes = waffleTypeList;
+
+                var fillingTypeList = await _fillingTypeService.GetAllAsync();
+                viewModel.FillingTypes = fillingTypeList;
+
+                viewModel.CurrentWaffleTypeName = "Все";
+
+                viewModel.CurrentFillingTypeName = "Все";
+
+                viewModel.CurrentMinPrice = 0;
+                viewModel.CurrentMaxPrice = 100;
+
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel() { RequestId = ex.Message });
+            }
+        }
+
+       [HttpPost]
 		public async Task<IActionResult> Index(string? waffleName = null, Guid? waffleTypeId = null, Guid? fillingTypeId = null,
                                                decimal minPrice = 0, decimal maxPrice = 100, int pageNow = 1)
 		{

@@ -17,10 +17,18 @@
                 <h5 class="card-header">Фильтрация</h5>
                 <div class="card-body">
                     <div class="d-flex mb-3">
-                        <input type="text" class="form-control" id="waffleNameInput" name="waffleName" value="@Model.CurrentWaffleName" style="width: 200px; height: 30px;">
-                        <a id="searchLink" href="#" class="btn btn-secondary ml-auto" style="margin-left: 5px; height: 30px;">
-                            <i class="fa fa-search"></i>
-                        </a>
+                        <form asp-controller="Waffle" asp-action="Index" method="post">
+                            <input type="hidden" name="waffleTypeId" value="@Model.CurrentWaffleTypeId" />
+                            <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
+                            <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
+                            <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+
+                            <input type="text" name="waffleName" value="@Model.CurrentWaffleName" style="width: 200px; height: 30px;" />
+
+                            <button class="btn btn-secondary ml-auto" style="margin-left: 5px; height: 30px;">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </form>
                     </div>
                     <div class="col-2 border-2">
                         <ul class="nav mb-3">
@@ -28,18 +36,28 @@
                                 <a class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"> Тип вафли: @Model.CurrentWaffleTypeName</a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item" asp-controller="Waffle" asp-action="Index"
-                                           asp-route-waffleName=@Model.CurrentWaffleName asp-route-fillingTypeId=@Model.CurrentFillingTypeId
-                                           asp-route-minPrice=@Model.CurrentMinPrice asp-route-maxPrice=@Model.CurrentMaxPrice
-                                           asp-route-waffleTypeId=@null>Все</a>
+                                        <form asp-controller="Waffle" asp-action="Index" method="post">
+                                            <input type="hidden" name="waffleName" value="@Model.CurrentWaffleName" />
+                                            <input type="hidden" name="waffleTypeId" value="@null" />
+                                            <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
+                                            <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
+                                            <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+
+                                            <button type="submit" class="dropdown-item">Все</button>
+                                        </form>
                                     </li>
                                     @foreach (var item in Model.WaffleTypes)
                                     {
                                         <li>
-                                            <a class="dropdown-item" asp-controller="Waffle" asp-action="Index"
-                                               asp-route-waffleName=@Model.CurrentWaffleName asp-route-fillingTypeId=@Model.CurrentFillingTypeId
-                                               asp-route-minPrice=@Model.CurrentMinPrice asp-route-maxPrice=@Model.CurrentMaxPrice
-                                               asp-route-waffleTypeId=@item.Id>@item.Name</a>
+                                            <form asp-controller="Waffle" asp-action="Index" method="post">
+                                                <input type="hidden" name="waffleName" value="@Model.CurrentWaffleName" />
+                                                <input type="hidden" name="waffleTypeId" value="@item.Id" />
+                                                <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
+                                                <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
+                                                <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+
+                                                <button type="submit" class="dropdown-item">@item.Name</button>
+                                            </form>
                                         </li>
                                     }
                                 </ul>
@@ -49,18 +67,28 @@
                                 <a class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"> Тип начинки: @Model.CurrentFillingTypeName</a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item" asp-controller="Waffle" asp-action="Index"
-                                           asp-route-waffleName=@Model.CurrentWaffleName asp-route-waffleTypeId=@Model.CurrentWaffleTypeId
-                                           asp-route-minPrice=@Model.CurrentMinPrice asp-route-maxPrice=@Model.CurrentMaxPrice
-                                           asp-route-fillingTypeId=@null>Все</a>
+                                        <form asp-controller="Waffle" asp-action="Index" method="post">
+                                            <input type="hidden" name="waffleName" value="@Model.CurrentWaffleName" />
+                                            <input type="hidden" name="waffleTypeId" value="@Model.CurrentWaffleTypeId" />
+                                            <input type="hidden" name="fillingTypeId" value="@null" />
+                                            <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
+                                            <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+
+                                            <button type="submit" class="dropdown-item">Все</button>
+                                        </form>
                                     </li>
                                     @foreach (var item in Model.FillingTypes)
                                     {
                                         <li>
-                                            <a class="dropdown-item" asp-controller="Waffle" asp-action="Index"
-                                               asp-route-waffleName=@Model.CurrentWaffleName asp-route-waffleTypeId=@Model.CurrentWaffleTypeId
-                                               asp-route-minPrice=@Model.CurrentMinPrice asp-route-maxPrice=@Model.CurrentMaxPrice
-                                               asp-route-fillingTypeId=@item.Id>@item.Name</a>
+                                            <form asp-controller="Waffle" asp-action="Index" method="post">
+                                                <input type="hidden" name="waffleName" value="@Model.CurrentWaffleName" />
+                                                <input type="hidden" name="waffleTypeId" value="@Model.CurrentWaffleTypeId" />
+                                                <input type="hidden" name="fillingTypeId" value="@item.Id" />
+                                                <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
+                                                <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+
+                                                <button type="submit" class="dropdown-item">@item.Name</button>
+                                            </form>
                                         </li>
                                     }
                                 </ul>
@@ -71,30 +99,40 @@
                     <div>
                         <label for="minPriceInput" class="form-label">Мин. цена:</label>
                         <div class="d-flex">
-                            <input type="number" class="form-control" id="minPriceInput" name="minPrice" value="@Model.CurrentMinPrice" min="0" max="100" style="width: 100px; height: 30px; margin-right: 5px;" oninput="updateMinPrice(this.value)">
-                            <a class="btn btn-secondary" style="height: 30px;"
-                               asp-controller="Waffle" asp-action="Index"
-                               asp-route-waffleName="@Model.CurrentWaffleName" asp-route-fillingTypeId="@Model.CurrentWaffleTypeId"
-                               asp-route-waffleTypeId="@Model.CurrentWaffleTypeId" asp-route-maxPrice="@Model.CurrentMaxPrice"
-                               asp-route-minPrice="@Model.CurrentMinPrice">
-                                <i class="fa fa-search"></i>
-                            </a>
+                            <form asp-controller="Waffle" asp-action="Index" method="post">
+                                <input type="hidden" name="waffleName" value="@Model.CurrentWaffleName" />
+                                <input type="hidden" name="waffleTypeId" value="@Model.CurrentWaffleTypeId" />
+                                <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
+                                <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+
+                                <input type="number" name="minPrice" value="@Model.CurrentMinPrice" min="0" max="100" style="width: 100px; height: 30px; margin-right: 5px;" />
+
+                                <button type="submit" class="btn btn-secondary" style="height: 30px;">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
 
-                    <div>
+                    <div class="mb-3">
                         <label for="maxPriceInput" class="form-label">Макс. цена:</label>
                         <div class="d-flex">
-                            <input type="number" class="form-control" id="maxPriceInput" name="maxPrice" value="@Model.CurrentMaxPrice" min="0" max="100" style="width: 100px; height: 30px; margin-right: 5px;">
-                            <a class="btn btn-secondary" style="height: 30px;"
-                               asp-controller="Waffle" asp-action="Index"
-                               asp-route-waffleName=@Model.CurrentWaffleName asp-route-fillingTypeId=@Model.CurrentWaffleTypeId
-                               asp-route-waffleTypeId=@Model.CurrentWaffleTypeId asp-route-minPrice=@Model.CurrentMinPrice
-                               asp-route-maxPrice=@Model.CurrentMaxPrice>
-                                <i class="fa fa-search"></i>
-                            </a>
+                            <form asp-controller="Waffle" asp-action="Index" method="post">
+                                <input type="hidden" name="waffleName" value="@Model.CurrentWaffleName" />
+                                <input type="hidden" name="waffleTypeId" value="@Model.CurrentWaffleTypeId" />
+                                <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
+                                <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
+
+                                <input type="number" name="maxPrice" value="@Model.CurrentMaxPrice" min="0" max="100" style="width: 100px; height: 30px; margin-right: 5px;" />
+
+                                <button type="submit" class="btn btn-secondary" style="height: 30px;">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
+
+                    <a class="btn btn-secondary w-100" asp-controller="Waffle" asp-action="Index">Сбросить фильтрацию</a>
                 </div>
             </div>
         </div>
@@ -121,40 +159,54 @@
             <nav aria-label="Page navigation" class="my-4">
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
-                        <a class="page-link" aria-label="Previous" asp-controller="Waffle" asp-action="Index" asp-route-pageNow="@prevPage">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
+                        <form asp-controller="Waffle" asp-action="Index" method="post">
+                            <input type="hidden" name="waffleName" value="@Model.CurrentWaffleName" />
+                            <input type="hidden" name="waffleTypeId" value="@Model.CurrentWaffleTypeId" />
+                            <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
+                            <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
+                            <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+                            <input type="hidden" name="pageNow" value="@prevPage" />
+
+                            <button type="submit" class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </button>
+                        </form>
                     </li>
 
                     @for (int i = 0; i < Model.Waffles.TotalPages; ++i)
                     {
-                        <li class="page-item @(Model.Waffles.CurrentPage == i+1 ? "active":"")"><a class="page-link" asp-controller="Waffle" asp-action="Index" asp-route-pageNow="@(i+1)">@(i + 1)</a></li>
+                        <li class="page-item @(Model.Waffles.CurrentPage == i+1 ? "active":"")">
+                            <form asp-controller="Waffle" asp-action="Index" method="post">
+                                <input type="hidden" name="waffleName" value="@Model.CurrentWaffleName" />
+                                <input type="hidden" name="waffleTypeId" value="@Model.CurrentWaffleTypeId" />
+                                <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
+                                <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
+                                <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+                                <input type="hidden" name="pageNow" value="@(i+1)" />
+
+                                <button type="submit" class="page-link" aria-label="Next">
+                                    @(i + 1)
+                                </button>
+                            </form>
+                        </li>
                     }
 
                     <li class="page-item">
-                        <a class="page-link" aria-label="Next" asp-controller="Waffle" asp-action="Index" asp-route-pageNow="@nextPage">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
+                        <form asp-controller="Waffle" asp-action="Index" method="post">
+                            <input type="hidden" name="waffleName" value="@Model.CurrentWaffleName" />
+                            <input type="hidden" name="waffleTypeId" value="@Model.CurrentWaffleTypeId" />
+                            <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
+                            <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
+                            <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+                            <input type="hidden" name="pageNow" value="@nextPage" />
+
+                            <button type="submit" class="page-link" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </nav>
         </div>
     </div>
 </div>
-
-
-@section scripts {
-    <script>
-        document.getElementById('searchLink').addEventListener('click', function () {
-            var waffleNameInput = document.getElementById('waffleNameInput');
-            window.location.href = "/Waffle/Index?waffleName=" + waffleNameInput.value
-                + "&waffleTypeId=" + @Model.CurrentWaffleTypeId
-                + "&fillingTypeId=" + @Model.CurrentFillingTypeId
-                + "&minPrice=" + @Model.CurrentMinPrice
-                + "&maxPrice=" + @Model.CurrentMaxPrice;
-        });
-        function updateMinPrice(value) {
-            @Model.CurrentMinPrice = value;
-        }
-    </script>
-}
