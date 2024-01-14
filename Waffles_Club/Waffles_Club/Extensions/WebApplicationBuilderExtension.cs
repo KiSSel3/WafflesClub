@@ -44,6 +44,9 @@ public static class WebApplicationBuilderExtension
         builder.Services.AddScoped<IWaffleService, WaffleService>();
         builder.Services.AddScoped<IWaffleTypeService, WaffleTypeService>();
 		builder.Services.AddScoped<IFillingTypeService, FillingTypeService>();
+        builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<ICartService,CartService>();
+        builder.Services.AddScoped<ITokenService, TokenService>();
 	}
 
 
