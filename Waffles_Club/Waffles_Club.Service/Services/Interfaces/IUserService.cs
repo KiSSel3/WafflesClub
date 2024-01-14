@@ -6,11 +6,11 @@ namespace Waffles_Club.Service.Services.Interfaces;
 public interface IUserService
 {
     Task CreateAsync(RegisterViewModel viewModel);
-    Task<User> GetById(string id);
+    Task<User> GetById(string userId);
     Task<List<User>> GetAll();
-    Task AddToRoleAsync(string userId, Guid roleId);
+    Task AddToRoleAsync(string userId, string roleName);
     Task DeleteAsync(string userId);
-    Task UpdateAsync(string id, UpdateUserViewModel viewModel);
-    Task UpdatePassword(string id, string newPassword);
-    Task GetByLogin(string login);
+    Task UpdateAsync(string userId, UpdateUserViewModel viewModel);
+    Task UpdatePassword(string userId, UpdatePasswordViewModel viewModel);
+    Task<User> GetByLogin(string login);
 }
