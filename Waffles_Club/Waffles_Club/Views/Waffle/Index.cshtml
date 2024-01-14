@@ -1,4 +1,4 @@
-﻿@model Waffles_Club.Shared.ViewModels.HomeIndexViewModel
+﻿@model HomeIndexViewModel
 
 @{
     int prevPage = (Model.Waffles.CurrentPage == 1) ? 1 : Model.Waffles.CurrentPage - 1;
@@ -13,9 +13,45 @@
             <!-- Ваш контент для левой части -->
         </div>
         <div class="col-md-9">
-            <p>dslf;sadfasdffgbbbfdgbdfgbdfgbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</p>
-            <!-- Правая часть занимает 3/4 экрана -->
-            <!-- Ваш контент для правой части -->
+            <div class="row row-cols-1 row-cols-md-3 g-3">
+                @foreach (var item in Model.Waffles.Items)
+                {
+                    <div class="col mb-4">
+                        <div class="card h-100 text-center d-flex flex-column">
+                            <div class="card-body">
+                                <img class="card-img-top h-70 img-fluid" src="@item.ImageUrl" alt="Card image cap">
+                                <h5 class="card-title">@item.Name</h5>
+                            </div>
+                            <div class="card-footer mt-auto">
+                                <a class="btn btn-primary m-1">
+                                    <i class="fas fa-shopping-cart"></i> Добавить в корзину
+                                </a>
+                                <p class="card-text">@item.Price $</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <nav aria-label="Page navigation" class="my-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Previous" asp-controller="Waffle" asp-action="Index" asp-route-pageNow="@prevPage">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    @for (int i = 0; i < Model.Waffles.TotalPages; ++i)
+                    {
+                        <li class="page-item @(Model.Waffles.CurrentPage == i+1 ? "active":"")"><a class="page-link" asp-controller="Waffle" asp-action="Index" asp-route-pageNow="@(i+1)">@(i + 1)</a></li>
+                    }
+
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Next" asp-controller="Waffle" asp-action="Index" asp-route-pageNow="@nextPage">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
