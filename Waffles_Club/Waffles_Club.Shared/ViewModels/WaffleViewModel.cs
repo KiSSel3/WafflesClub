@@ -30,5 +30,9 @@ namespace Waffles_Club.Shared.ViewModels
 		[Required(ErrorMessage = "Необходимо указать цену")]
 		[Range(0.01, double.MaxValue, ErrorMessage = "Цена должна быть больше 0.01 $")]
 		public decimal Price { get; set; }
-	}
+
+        [Required(ErrorMessage = "Необходимо указать вес")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Вес должен быть больше 0.01")]
+        public double Weight { get; set; }
+    }
 }

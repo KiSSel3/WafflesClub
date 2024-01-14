@@ -66,7 +66,8 @@ namespace Waffles_Club.Service.Services.Implementations
 			return waffleById;
 		}
 
-		public async Task<PaginatedList<Waffle>> GetWaffleListAsync(string? waffleName = null, Guid? waffleTypeId = null, Guid? fillingTypeId = null, int pageNow = 1, int pageSize = 6)
+		public async Task<PaginatedList<Waffle>> GetWaffleListAsync(string? waffleName = null, Guid? waffleTypeId = null, Guid? fillingTypeId = null,
+																	decimal? minPrice = 0, decimal? maxPrice = decimal.MaxValue, int pageNow = 1, int pageSize = 6)
 		{
 			var paginatedList = new PaginatedList<Waffle>();
 
@@ -87,7 +88,17 @@ namespace Waffles_Club.Service.Services.Implementations
 				waffles = waffles.Where(w => w.Name.ToLower().Contains(waffleName.ToLower())).ToList();
 			}
 
-			var countWaffles = waffles.Count;
+			if(minPrice != null)
+			{
+				waffles = waffles.Where(w => w.Price >= minPrice).ToList();
+            }
+
+            if (maxPrice != null)
+            {
+                waffles = waffles.Where(w => w.Price <= maxPrice).ToList();
+            }
+
+            var countWaffles = waffles.Count;
 
 			if(countWaffles == 0)
 			{
@@ -129,6 +140,7 @@ namespace Waffles_Club.Service.Services.Implementations
 			waffleById.ImageUrl = viewModel.ImageUrl;
 			waffleById.CountInPackage = viewModel.CountInPackage;
 			waffleById.Price = viewModel.Price;
+			waffleById.Weight = viewModel.Weight;
 
 			await _waffleRepository.Update(waffleById);
 
