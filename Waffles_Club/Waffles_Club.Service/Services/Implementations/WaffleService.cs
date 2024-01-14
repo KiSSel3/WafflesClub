@@ -85,8 +85,8 @@ namespace Waffles_Club.Service.Services.Implementations
 
 			if(waffleName != null)
 			{
-				waffles = waffles.Where(w => w.Name.ToLower().Contains(waffleName.ToLower())).ToList();
-			}
+				waffles = waffles.Where(w => w.Name.IndexOf(waffleName, StringComparison.OrdinalIgnoreCase) != -1).ToList();
+            }
 
 			if(minPrice != null)
 			{

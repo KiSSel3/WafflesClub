@@ -21,22 +21,50 @@ namespace Waffles_Club.Controllers
 
 			_configuration = configuration;
 		}
-
-		[HttpGet]
-		public async Task<IActionResult> Index(int pageNow = 1)
+		
+        [HttpGet]
+		public async Task<IActionResult> Index(string? waffleName = null, Guid? waffleTypeId = null, Guid? fillingTypeId = null,
+                                               decimal minPrice = 0, decimal maxPrice = 100, int pageNow = 1)
 		{
 			try
 			{
-				var viewModel = new HomeIndexViewModel();
+				var viewModel = new HomePageViewModel();
 
-				var waffleList = await _waffleService.GetWaffleListAsync(pageNow: pageNow);
+				var waffleList = await _waffleService.GetWaffleListAsync(waffleName, waffleTypeId, fillingTypeId, minPrice, maxPrice, pageNow);
 				viewModel.Waffles = waffleList;
 
 				var waffleTypeList = await _waffleTypeService.GetAllAsync();
-				viewModel.SelectListWaffleType = new SelectList(waffleTypeList, "Id", "Name");
+				viewModel.WaffleTypes = waffleTypeList;
 
                 var fillingTypeList = await _fillingTypeService.GetAllAsync();
-                viewModel.SelectListFillingType = new SelectList(fillingTypeList, "Id", "Name");
+				viewModel.FillingTypes = fillingTypeList;
+
+				viewModel.CurrentWaffleName = waffleName;
+
+				viewModel.CurrentWaffleTypeId = waffleTypeId;
+				if(waffleTypeId != null)
+				{
+					var currentWaffleType = await _waffleTypeService.GetByIdAsync(waffleTypeId.Value);
+                    viewModel.CurrentWaffleTypeName = currentWaffleType.Name;
+                }
+				else
+				{
+                    viewModel.CurrentWaffleTypeName = "Все";
+                }
+
+				viewModel.CurrentFillingTypeId = fillingTypeId;
+                if (fillingTypeId != null)
+                {
+                    var currentFillingType = await _fillingTypeService.GetByIdAsync(fillingTypeId.Value);
+                    viewModel.CurrentFillingTypeName = currentFillingType.Name;
+                }
+                else
+                {
+                    viewModel.CurrentFillingTypeName = "Все";
+                }
+
+                viewModel.CurrentMinPrice = minPrice;
+				viewModel.CurrentMaxPrice = maxPrice;
 
                 return View(viewModel);
 			}
