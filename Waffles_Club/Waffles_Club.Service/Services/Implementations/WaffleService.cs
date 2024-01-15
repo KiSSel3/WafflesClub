@@ -8,6 +8,7 @@ using Waffles_Club.Shared.Helpers;
 using Waffles_Club.Shared.ViewModels;
 using Waffles_Club.DataManagment.Interfaces;
 using Waffles_Club.Service.Services.Interfaces;
+using Waffles_Club.Data.Enum;
 
 namespace Waffles_Club.Service.Services.Implementations
 {
@@ -67,7 +68,7 @@ namespace Waffles_Club.Service.Services.Implementations
 		}
 
 		public async Task<PaginatedList<Waffle>> GetWaffleListAsync(string? waffleName = null, Guid? waffleTypeId = null, Guid? fillingTypeId = null,
-																	decimal? minPrice = 0, decimal? maxPrice = decimal.MaxValue, int pageNow = 1, int pageSize = 6)
+																	decimal? minPrice = 0, decimal? maxPrice = decimal.MaxValue, int pageNow = 1, int pageSize = 6, SortingParameters sortingParameters = SortingParameters.None)
 		{
 			var paginatedList = new PaginatedList<Waffle>();
 
@@ -112,7 +113,9 @@ namespace Waffles_Club.Service.Services.Implementations
 				throw new Exception("No such page");
 			}
 
-			paginatedList.Items = waffles.Skip((pageNow - 1) * pageSize).Take(pageSize).ToList();
+			waffles = Sorting(waffles, sortingParameters);
+
+            paginatedList.Items = waffles.Skip((pageNow - 1) * pageSize).Take(pageSize).ToList();
 			paginatedList.CurrentPage = pageNow;
 			paginatedList.TotalPages = totalPages;
 
@@ -146,5 +149,37 @@ namespace Waffles_Club.Service.Services.Implementations
 
 			return waffleById;
 		}
+
+		private List<Waffle> Sorting(List<Waffle> waffles, SortingParameters sortingParameters)
+		{
+			switch (sortingParameters)
+			{
+				case SortingParameters.PriceDecrease:
+					return waffles.OrderByDescending(w => w.Price).ToList();
+
+                case SortingParameters.PriceIncrease:
+                    return waffles.OrderBy(w => w.Price).ToList();
+
+                case SortingParameters.CountDecrease:
+                    return waffles.OrderByDescending(w => w.CountInPackage).ToList();
+
+                case SortingParameters.CountIncrease:
+                    return waffles.OrderBy(w => w.CountInPackage).ToList();
+
+                case SortingParameters.NameDecrease:
+                    return waffles.OrderByDescending(w => w.Name).ToList();
+
+                case SortingParameters.NameIncrease:
+                    return waffles.OrderBy(w => w.Name).ToList();
+
+                case SortingParameters.WeightDecrease:
+                    return waffles.OrderByDescending(w => w.Weight).ToList();
+
+                case SortingParameters.WeightIncrease:
+                    return waffles.OrderBy(w => w.Weight).ToList();
+            }
+
+			return waffles;
+        }
 	}
 }

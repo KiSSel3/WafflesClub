@@ -1,4 +1,4 @@
-﻿@model HomePageViewModel
+﻿@model WafflePageViewModel
 
 @{
     int prevPage = (Model.Waffles.CurrentPage == 1) ? 1 : Model.Waffles.CurrentPage - 1;
@@ -11,6 +11,72 @@
             <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
                 <h5 class="card-header">Сортировка</h5>
                 <div class="card-body">
+                    <form asp-controller="Waffle" asp-action="Index" method="post">
+                        <input type="hidden" name="waffleName" value="@Model.CurrentWaffleName" />
+                        <input type="hidden" name="waffleTypeId" value="@Model.CurrentWaffleTypeId" />
+                        <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
+                        <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
+                        <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sortingParameters" id="None" value="@SortingParameters.None" @(Model.CurrentSortingParameters == SortingParameters.None ? "checked" : "")>
+                            <label class="form-check-label" for="None">
+                                Без сортировки
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sortingParameters" id="PriceDecrease" value="@SortingParameters.PriceDecrease" @(Model.CurrentSortingParameters == SortingParameters.PriceDecrease ? "checked" : "")>
+                            <label class="form-check-label" for="PriceDecrease">
+                                По уменьшению цены
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sortingParameters" id="PriceIncrease" value="@SortingParameters.PriceIncrease" @(Model.CurrentSortingParameters == SortingParameters.PriceIncrease ? "checked" : "")>
+                            <label class="form-check-label" for="PriceIncrease">
+                                По увеличению цены
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sortingParameters" id="CountDecrease" value="@SortingParameters.CountDecrease" @(Model.CurrentSortingParameters == SortingParameters.CountDecrease ? "checked" : "")>
+                            <label class="form-check-label" for="CountDecrease">
+                                По уменьшению количества
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sortingParameters" id="CountIncrease" value="@SortingParameters.CountIncrease" @(Model.CurrentSortingParameters == SortingParameters.CountIncrease ? "checked" : "")>
+                            <label class="form-check-label" for="CountIncrease">
+                                По увеличению количества
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sortingParameters" id="WeightDecrease" value="@SortingParameters.WeightDecrease" @(Model.CurrentSortingParameters == SortingParameters.WeightDecrease ? "checked" : "")>
+                            <label class="form-check-label" for="WeightDecrease">
+                                По уменьшению веса
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sortingParameters" id="WeightIncrease" value="@SortingParameters.WeightIncrease" @(Model.CurrentSortingParameters == SortingParameters.WeightIncrease ? "checked" : "")>
+                            <label class="form-check-label" for="WeightIncrease">
+                                По увеличению веса
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sortingParameters" id="NameDecrease" value="@SortingParameters.NameDecrease" @(Model.CurrentSortingParameters == SortingParameters.NameDecrease ? "checked" : "")>
+                            <label class="form-check-label" for="NameDecrease">
+                                От Я до А
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sortingParameters" id="NameIncrease" value="@SortingParameters.NameIncrease" @(Model.CurrentSortingParameters == SortingParameters.NameIncrease ? "checked" : "")>
+                            <label class="form-check-label" for="NameIncrease">
+                                От А до Я
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-secondary w-100" >
+                            Применить
+                        </button>
+                    </form>
                 </div>
             </div>
             <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
@@ -22,6 +88,7 @@
                             <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
                             <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
                             <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+                            <input type="hidden" name="sortingParameters" value="@Model.CurrentSortingParameters" />
 
                             <input type="text" name="waffleName" value="@Model.CurrentWaffleName" style="width: 200px; height: 30px;" />
 
@@ -42,6 +109,7 @@
                                             <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
                                             <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
                                             <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+                                            <input type="hidden" name="sortingParameters" value="@Model.CurrentSortingParameters" />
 
                                             <button type="submit" class="dropdown-item">Все</button>
                                         </form>
@@ -55,6 +123,7 @@
                                                 <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
                                                 <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
                                                 <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+                                                <input type="hidden" name="sortingParameters" value="@Model.CurrentSortingParameters" />
 
                                                 <button type="submit" class="dropdown-item">@item.Name</button>
                                             </form>
@@ -73,6 +142,7 @@
                                             <input type="hidden" name="fillingTypeId" value="@null" />
                                             <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
                                             <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+                                            <input type="hidden" name="sortingParameters" value="@Model.CurrentSortingParameters" />
 
                                             <button type="submit" class="dropdown-item">Все</button>
                                         </form>
@@ -86,6 +156,7 @@
                                                 <input type="hidden" name="fillingTypeId" value="@item.Id" />
                                                 <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
                                                 <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+                                                <input type="hidden" name="sortingParameters" value="@Model.CurrentSortingParameters" />
 
                                                 <button type="submit" class="dropdown-item">@item.Name</button>
                                             </form>
@@ -104,6 +175,7 @@
                                 <input type="hidden" name="waffleTypeId" value="@Model.CurrentWaffleTypeId" />
                                 <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
                                 <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
+                                <input type="hidden" name="sortingParameters" value="@Model.CurrentSortingParameters" />
 
                                 <input type="number" name="minPrice" value="@Model.CurrentMinPrice" min="0" max="100" style="width: 100px; height: 30px; margin-right: 5px;" />
 
@@ -122,6 +194,7 @@
                                 <input type="hidden" name="waffleTypeId" value="@Model.CurrentWaffleTypeId" />
                                 <input type="hidden" name="fillingTypeId" value="@Model.CurrentFillingTypeId" />
                                 <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
+                                <input type="hidden" name="sortingParameters" value="@Model.CurrentSortingParameters" />
 
                                 <input type="number" name="maxPrice" value="@Model.CurrentMaxPrice" min="0" max="100" style="width: 100px; height: 30px; margin-right: 5px;" />
 
@@ -166,6 +239,7 @@
                             <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
                             <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
                             <input type="hidden" name="pageNow" value="@prevPage" />
+                            <input type="hidden" name="sortingParameters" value="@Model.CurrentSortingParameters" />
 
                             <button type="submit" class="page-link" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
@@ -183,6 +257,7 @@
                                 <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
                                 <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
                                 <input type="hidden" name="pageNow" value="@(i+1)" />
+                                <input type="hidden" name="sortingParameters" value="@Model.CurrentSortingParameters" />
 
                                 <button type="submit" class="page-link" aria-label="Next">
                                     @(i + 1)
@@ -199,6 +274,7 @@
                             <input type="hidden" name="minPrice" value="@Model.CurrentMinPrice" />
                             <input type="hidden" name="maxPrice" value="@Model.CurrentMaxPrice" />
                             <input type="hidden" name="pageNow" value="@nextPage" />
+                            <input type="hidden" name="sortingParameters" value="@Model.CurrentSortingParameters" />
 
                             <button type="submit" class="page-link" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
@@ -210,3 +286,10 @@
         </div>
     </div>
 </div>
+
+<style>
+    .form-check-input:checked {
+        background-color: gray;
+        border-color: gray;
+    }
+</style>

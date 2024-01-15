@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Waffles_Club.Data.Entity;
+using Waffles_Club.Data.Enum;
 using Waffles_Club.Service.Services.Interfaces;
 using Waffles_Club.Shared.ViewModels;
 
@@ -28,7 +29,7 @@ namespace Waffles_Club.Controllers
 		{
             try
             {
-                var viewModel = new HomePageViewModel();
+                var viewModel = new WafflePageViewModel();
                 var waffleList = await _waffleService.GetWaffleListAsync();
                 viewModel.Waffles = waffleList;
 
@@ -55,13 +56,13 @@ namespace Waffles_Club.Controllers
 
        [HttpPost]
 		public async Task<IActionResult> Index(string? waffleName = null, Guid? waffleTypeId = null, Guid? fillingTypeId = null,
-                                               decimal minPrice = 0, decimal maxPrice = 100, int pageNow = 1)
+                                               decimal minPrice = 0, decimal maxPrice = 100, int pageNow = 1, SortingParameters sortingParameters = SortingParameters.None)
 		{
 			try
 			{
-				var viewModel = new HomePageViewModel();
+				var viewModel = new WafflePageViewModel();
 
-				var waffleList = await _waffleService.GetWaffleListAsync(waffleName, waffleTypeId, fillingTypeId, minPrice, maxPrice, pageNow);
+				var waffleList = await _waffleService.GetWaffleListAsync(waffleName, waffleTypeId, fillingTypeId, minPrice, maxPrice, pageNow, sortingParameters: sortingParameters);
 				viewModel.Waffles = waffleList;
 
 				var waffleTypeList = await _waffleTypeService.GetAllAsync();
@@ -96,6 +97,8 @@ namespace Waffles_Club.Controllers
 
                 viewModel.CurrentMinPrice = minPrice;
 				viewModel.CurrentMaxPrice = maxPrice;
+
+                viewModel.CurrentSortingParameters = sortingParameters;
 
                 return View(viewModel);
 			}
