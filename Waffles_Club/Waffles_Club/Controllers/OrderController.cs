@@ -1,6 +1,7 @@
 ﻿using DwellEase.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Waffles_Club.Service.Services.Implementations;
 using Waffles_Club.Service.Services.Interfaces;
 using Waffles_Club.Shared.ViewModels;
 using Waffles_Club.Validators;
@@ -15,7 +16,7 @@ namespace Waffles_Club.Controllers
         {
             _orderService = orderService;
         }
-        private void ValidateViewModel(CartViewModel orderViewModel)
+        private void ValidateViewModel(OrderViewModel orderViewModel)
         {
             var validateResult = GeneralValidator.Validate(new OrderViewModelValidator(), orderViewModel);
             if (validateResult.Length != 0)
@@ -37,11 +38,21 @@ namespace Waffles_Club.Controllers
             }
         }
         [Authorize]
-        public async Task<IActionResult> CreateOrder(List<OrderViewModel> orderViewModels)
+        public async Task<IActionResult> CreateOrder(string userId,List<OrderViewModel> orderViewModels)
         {
             try
             {
+                foreach (var orderViewModel in orderViewModels)
+                {
+                    ValidateViewModel(orderViewModel);
+                }
+                await _orderService.CreateOrder(userId,orderViewModels);
+                return View();
 
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel() { RequestId = ex.Message });
             }
         }
     }

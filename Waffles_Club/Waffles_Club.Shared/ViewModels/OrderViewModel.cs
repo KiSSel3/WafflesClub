@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Waffles_Club.Shared.ViewModels
 {
-    internal class OrderViewModel
+    public class OrderViewModel
     {
+        public Guid WaffleId { get; set; }
+        public int Count { get; set; }
     }
 }

@@ -62,7 +62,8 @@ public class CartService:ICartService
         var cart = cartsByUser.FirstOrDefault(cart => cart.WaffleId == cartViewModel.WaffleId && cart.UserId == guidUserId);
         cart.Count--;
         await _cartRepository.Update(cart);
-        return cartsByUser;
+        var newCartsByUser = await _cartRepository.GetByUserId(guidUserId);
+        return newCartsByUser;
     }
 
     public async Task<Cart> GetByIdAsync(Guid id)
@@ -105,7 +106,8 @@ public class CartService:ICartService
         var cart=cartsByUser.FirstOrDefault(cart=>cart.WaffleId==cartViewModel.WaffleId&&cart.UserId==guidUserId);
         cart.Count++;
         await _cartRepository.Update(cart);
-        return cartsByUser;
+        var newCartsByUser=await _cartRepository.GetByUserId(guidUserId);
+        return newCartsByUser;
 
     }
 
