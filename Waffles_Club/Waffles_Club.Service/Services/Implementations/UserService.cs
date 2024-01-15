@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 using Waffles_Club.Data.Entity;
 using Waffles_Club.Data.Models;
 using Waffles_Club.DataManagment.Interfaces;
@@ -8,7 +9,7 @@ using Waffles_Club.Shared.ViewModels;
 
 namespace Waffles_Club.Service.Services.Implementations;
 
-public class UserService:IUserService
+public class UserService : IUserService
 {
     private readonly ILogger<UserService> _logger;
     private readonly IUserRepository _userRepository;
@@ -70,18 +71,21 @@ public class UserService:IUserService
         return users;
     }
 
-    public async Task AddToRoleAsync(string userId, string roleName)
+    public async Task AddToRoleAsync(string userLogin, string roleName)
     {
-        var guidUserId = _guidMapper.MapTo(userId);
-        var user = await _userRepository.GetById(guidUserId);
+        var user = await _userRepository.GetByLogin(userLogin);
         var role = await _roleRepository.GetByName(roleName);
-        if (user==null||role==null)
+        if (user == null)
         {
-            HandleError($"User with id: {guidUserId} not found");
+            HandleError($"User with Login: {userLogin} not found");
+        }
+
+        if(role == null)
+        {
+            HandleError($"Role {roleName} not found");
         }
 
         await _roleUserRepository.Create(new RoleUser() { RoleId = role.Id, UserId = user.Id });
-
     }
 
     public async Task DeleteAsync(string userId)
@@ -139,5 +143,85 @@ public class UserService:IUserService
         }
 
         return user;
+    }
+
+    public async Task<ClaimsIdentity> LoginAsync(LoginViewModel model)
+    {
+        var user = await _userRepository.GetByLogin(model.Login);
+
+        if(user == null)
+        {
+            HandleError("Login or password entered incorrectly");
+        }
+
+        if (user.Password != model.Password)
+        {
+            HandleError("Login or password entered incorrectly");
+        }
+
+        return Authenticate(user);
+    }
+
+    public async Task<ClaimsIdentity> RegisterAsync(RegisterViewModel model)
+    {
+        var user = await _userRepository.GetByLogin(model.Login);
+
+        if (user != null)
+        {
+            HandleError("This login is already in use");
+        }
+
+        user = new User
+        {
+            Login = model.Login,
+            Name = model.Name,
+            Password = model.Password,
+            Email = model.Email
+        };
+
+        await _userRepository.Create(user);
+
+        await AddToRoleAsync(model.Login, "User");
+
+        return Authenticate(user);
+    }
+
+    public async Task<bool> CheckUserRole(string userId, string roleName)
+    {
+        var guidUserId = _guidMapper.MapTo(userId);
+
+        var user = await _userRepository.GetById(guidUserId);
+        if (user == null)
+        {
+            HandleError($"User with id: {guidUserId} not found");
+        }
+
+        var role = await _roleRepository.GetByName(roleName);
+        if(role == null)
+        {
+            HandleError($"Role not found");
+        }
+
+        var userRoles = await _roleUserRepository.GetByUserId(guidUserId);
+        foreach(var item in userRoles)
+        {
+            if (item.RoleId.Equals(role.Id))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private ClaimsIdentity Authenticate(User user)
+    {
+        List<Claim> claims = new List<Claim>()
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                new Claim("UserId", user.Id.ToString()),
+            };
+
+        return new ClaimsIdentity(claims, "Authentication", ClaimsIdentity.DefaultNameClaimType, null);
     }
 }
