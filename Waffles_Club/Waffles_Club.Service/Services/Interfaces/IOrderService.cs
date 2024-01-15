@@ -20,7 +20,7 @@ namespace Waffles_Club.Service.Services.Interfaces
 		public Task<Order> DeleteOrderByIdAsync(Guid orderId);
 		public Task<Order> ChangeStatusByOrderIdAsync(Guid orderId, OrderStatus newStatus);
 		public Task<OrderWaffle> AddWaffleToOrder(Guid orderId, Guid waffleId);
-		Task CreateOrder(string userId, List<OrderViewModel> orderViewModels);
+		public Task CreateOrder(string userId, List<OrderViewModel> orderViewModels);
 
     }
 }

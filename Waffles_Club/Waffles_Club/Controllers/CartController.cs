@@ -44,7 +44,7 @@ namespace Waffles_Club.Controllers
             try
             {
                 ValidateViewModel(cartViewModel);
-                var newCarts=await _cartService.AddToCartAsync(cartViewModel);
+                var newCarts = await _cartService.AddToCartAsync(cartViewModel);
                 return View(newCarts);
 
             }

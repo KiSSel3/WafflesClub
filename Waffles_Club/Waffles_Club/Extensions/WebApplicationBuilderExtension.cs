@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
@@ -51,38 +52,18 @@ public static class WebApplicationBuilderExtension
 	}
 
 
-	   public static void AddAuthentication(this WebApplicationBuilder builder)
-        {
-            var jwtSettings = builder.Configuration.GetSection("Jwt");
-    
-            var key = Encoding.UTF8.GetBytes(jwtSettings["Secret"]);
-            var issuer = jwtSettings["Issuer"];
-            var audience = jwtSettings["Audience"];
-    
-            builder.Services.AddAuthentication(options =>
+    public static void AddAuthentication(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = issuer,
-                    ValidAudience = audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                };
+                options.Cookie.Name = "Authentication";
+                options.LoginPath = "/Account/Authorization";
+                options.Cookie.HttpOnly = true;
+                options.SlidingExpiration = true;
             });
-            builder.Services.AddAuthorization(options => options.DefaultPolicy =
-                new AuthorizationPolicyBuilder
-                        (JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser()
-                    .Build());
-            builder.Services.AddAuthorization(options =>
+
+        builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminArea", policy =>
                 {
@@ -90,7 +71,7 @@ public static class WebApplicationBuilderExtension
                     policy.RequireRole("Admin");
                 });
             });
-        }
+    }
     public static void AddLogging(this WebApplicationBuilder builder)
     {
         builder.Logging.ClearProviders();
