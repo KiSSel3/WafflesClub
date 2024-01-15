@@ -26,6 +26,6 @@ app.UseAuthorization();
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Waffle}/{action=Index}/{id?}");
 
 app.Run();
