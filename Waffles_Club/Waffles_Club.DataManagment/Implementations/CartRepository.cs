@@ -42,8 +42,8 @@ public class CartRepository : ICartRepository
         return await _dbContext.Carts.FindAsync(id);
     }
 
-    public async Task<Cart> GetByUserId(Guid userId)
+    public async Task<List<Cart>> GetByUserId(Guid userId)
     {
-        return await _dbContext.Carts.FirstOrDefaultAsync(cart => cart.UserId == userId);
+        return await _dbContext.Carts.Where(a=>a.UserId== userId).ToListAsync();
     }
 }

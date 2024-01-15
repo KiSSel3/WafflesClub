@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using Waffles_Club.Data.Entity;
 using Waffles_Club.Data.Enum;
 using Waffles_Club.Data.Models;
+using Waffles_Club.DataManagment.Implementations;
 using Waffles_Club.DataManagment.Interfaces;
 using Waffles_Club.Service.Services.Interfaces;
 using Waffles_Club.Shared.Mappers;
+using Waffles_Club.Shared.ViewModels;
 
 namespace Waffles_Club.Service.Services.Implementations
 {
@@ -131,5 +133,30 @@ namespace Waffles_Club.Service.Services.Implementations
 
 			return waffles;
 		}
+		public async Task CreateOrder(string userId,List<OrderViewModel> orderViewModels)
+		{
+            var guidUserId = _guidMapper.MapTo(userId);
+			var currentDate= DateTime.Now;
+			var order = new Order
+			{
+				UserId = guidUserId,
+				Date = currentDate,
+				OrderStatus = OrderStatus.Processing
+			};
+			await _orderRepository.Create(order);
+			var ordersByUser=await _orderRepository.GetByUserId(guidUserId);
+			var newOrder=ordersByUser.FirstOrDefault(order=>order.Date==currentDate);
+            foreach (var orderViewModel in orderViewModels)
+            {
+                var orderWaffle = new OrderWaffle
+                {
+                    OrderId = newOrder.Id,
+                    WaffleId = orderViewModel.WaffleId,
+                    Count = orderViewModel.Count
+				};
+
+                await _orderWaffleRepository.Create(orderWaffle);
+            }
+        }
 	}
 }

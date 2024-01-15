@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Waffles_Club.Data.Entity;
 using Waffles_Club.Data.Enum;
 using Waffles_Club.Data.Models;
+using Waffles_Club.Shared.ViewModels;
 
 namespace Waffles_Club.Service.Services.Interfaces
 {
@@ -19,5 +20,7 @@ namespace Waffles_Club.Service.Services.Interfaces
 		public Task<Order> DeleteOrderByIdAsync(Guid orderId);
 		public Task<Order> ChangeStatusByOrderIdAsync(Guid orderId, OrderStatus newStatus);
 		public Task<OrderWaffle> AddWaffleToOrder(Guid orderId, Guid waffleId);
-	}
+		Task CreateOrder(string userId, List<OrderViewModel> orderViewModels);
+
+    }
 }
