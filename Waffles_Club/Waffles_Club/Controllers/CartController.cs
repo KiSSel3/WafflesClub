@@ -37,7 +37,6 @@ namespace Waffles_Club.Controllers
             }
       
         }
-
         [Authorize]
         public async Task<IActionResult> AddWaffleToCart(CartViewModel cartViewModel)
         {
