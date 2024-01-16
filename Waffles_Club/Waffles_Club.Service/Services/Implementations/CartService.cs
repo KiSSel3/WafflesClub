@@ -59,7 +59,8 @@ public class CartService:ICartService
         }
         var cart = cartsByUser.FirstOrDefault(cart => cart.WaffleId == cartViewModel.WaffleId && cart.UserId == guidUserId);
         cart.Count--;
-        await _cartRepository.Update(cart);
+        if (cart.Count<1) await _cartRepository.Delete(cart);
+        else await _cartRepository.Update(cart);
         var newCartsByUser = await _cartRepository.GetByUserId(guidUserId);
         return newCartsByUser;
     }
@@ -99,7 +100,8 @@ public class CartService:ICartService
                 Count = 1
             };
             await _cartRepository.Create(newCart);
-            return new List<Cart> { newCart };
+            var newCarts = await _cartRepository.GetByUserId(guidUserId);
+            return newCarts;
         }
         var cart=cartsByUser.FirstOrDefault(cart=>cart.WaffleId==cartViewModel.WaffleId&&cart.UserId==guidUserId);
         cart.Count++;

@@ -1,0 +1,61 @@
+﻿@model List<CartsListViewModel>
+
+@{
+    Layout = null;
+    decimal orderCost = Model.Sum(cartItem => cartItem.Waffle.Price * cartItem.Count);
+    List<OrderViewModel> orderViewModels =Model.Select(cartItem => new OrderViewModel
+            {
+                WaffleId = cartItem.Waffle.Id,
+                Count = cartItem.Count
+            }).ToList();
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Коризина</title>
+    <link rel="stylesheet" href="~/css/personalArea.css">
+</head>
+<body>
+    <header>
+        <h1>Корзина</h1>
+        <img src="/images/cart.png" width="50" alt="User" class="rounded" />
+    </header>
+    <table>
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Изображение</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var waffleCart in Model)
+            {
+                <tr>
+                    <td>@waffleCart.Waffle.Name</td>
+                    <td><img src="@waffleCart.Waffle.ImageUrl" alt="@waffleCart.Waffle.Name" width="50" height="50"></td>
+                    <td>@waffleCart.Waffle.Price $</td>
+                    <td>
+                        <div class="quantity-buttons">
+                            <a class="bigger-button" href="@Url.Action("AddWaffleToCart", "Cart", new { waffleId = waffleCart.Waffle.Id })">+</a>
+                            <span>@waffleCart.Count</span>
+                            <a class="bigger-button" href="@Url.Action("DeleteWaffleFromCart", "Cart", new { waffleId = waffleCart.Waffle.Id })">-</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+<div class="center-container">
+    <p class="order-cost"><br>Стоимость устройств : @orderCost<br/></p>
+        <a class="bigger-button" href="@Url.Action("CreateOrder", "Order", new { orderViewModels=orderViewModels})">Заказать</a>
+</div>
+    <div class="navigation-button">
+        <a href="@Url.Action("Index","Waffle")" class="btn">Вернуться в каталог</a>
+    </div>
+</body>
+</html>

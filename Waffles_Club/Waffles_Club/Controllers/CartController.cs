@@ -64,7 +64,7 @@ namespace Waffles_Club.Controllers
                     var cartsViewModel = new CartsListViewModel { Count = cart.Count, Waffle = waffle };
                     cartsViewModelList.Add(cartsViewModel);
                 }
-                return View(cartsViewModelList);
+                return View("GetCartByUserId",  cartsViewModelList);
 
             }
             catch (Exception ex)
@@ -87,7 +87,7 @@ namespace Waffles_Club.Controllers
                     var cartsViewModel = new CartsListViewModel { Count = cart.Count, Waffle = waffle };
                     cartsViewModelList.Add(cartsViewModel);
                 }
-                return View(cartsViewModelList);
+                return View("GetCartByUserId", cartsViewModelList);
 
             }
             catch (Exception ex)
