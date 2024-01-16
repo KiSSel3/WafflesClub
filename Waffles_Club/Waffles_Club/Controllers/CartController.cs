@@ -1,6 +1,7 @@
 ﻿using DwellEase.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Waffles_Club.Data.Entity;
 using Waffles_Club.Service.Services.Interfaces;
 using Waffles_Club.Shared.ViewModels;
 using Waffles_Club.Validators;
@@ -24,10 +25,11 @@ namespace Waffles_Club.Controllers
             }
         }
         [Authorize]
-        public async Task<IActionResult> GetCartByUserId(string userId)
+        public async Task<IActionResult> GetCartByUserId()
         {
             try
             {
+                string userId = User.FindFirst("UserId")?.Value;
                 var carts = await _cartService.GetByUserIdAsync(userId);
                 return View(carts);
             }
@@ -38,10 +40,11 @@ namespace Waffles_Club.Controllers
       
         }
         [Authorize]
-        public async Task<IActionResult> AddWaffleToCart(CartViewModel cartViewModel)
+        public async Task<IActionResult> AddWaffleToCart(Guid waffleId)
         {
             try
             {
+                var cartViewModel = new CartViewModel() { UserId = User.FindFirst("UserId")?.Value, WaffleId = waffleId };
                 ValidateViewModel(cartViewModel);
                 var newCarts = await _cartService.AddToCartAsync(cartViewModel);
                 return View(newCarts);
@@ -53,10 +56,11 @@ namespace Waffles_Club.Controllers
             }
         }
         [Authorize]
-        public async Task<IActionResult> DeleteWaffleFromCart(CartViewModel cartViewModel)
+        public async Task<IActionResult> DeleteWaffleFromCart(Guid waffleId)
         {
             try
             {
+                var cartViewModel = new CartViewModel() { UserId = User.FindFirst("UserId")?.Value, WaffleId = waffleId };
                 ValidateViewModel(cartViewModel);
                 var newCarts = await _cartService.DeleteFromCartAsync(cartViewModel);
                 return View(newCarts);

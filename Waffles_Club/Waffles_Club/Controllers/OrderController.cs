@@ -1,6 +1,7 @@
 ﻿using DwellEase.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Waffles_Club.Data.Entity;
 using Waffles_Club.Service.Services.Implementations;
 using Waffles_Club.Service.Services.Interfaces;
 using Waffles_Club.Shared.ViewModels;
@@ -25,10 +26,11 @@ namespace Waffles_Club.Controllers
             }
         }
         [Authorize]
-        public async Task<IActionResult> GetOrdersByUserId(string userId)
+        public async Task<IActionResult> GetOrdersByUserId()
         {
             try
             {
+                var userId = User.FindFirst("UserId")?.Value;
                 var orders=await _orderService.GetOrdersByUserIdAsync(userId);
                 return View(orders);
             }
@@ -38,10 +40,11 @@ namespace Waffles_Club.Controllers
             }
         }
         [Authorize]
-        public async Task<IActionResult> CreateOrder(string userId,List<OrderViewModel> orderViewModels)
+        public async Task<IActionResult> CreateOrder(List<OrderViewModel> orderViewModels)
         {
             try
             {
+                var userId = User.FindFirst("UserId")?.Value;
                 foreach (var orderViewModel in orderViewModels)
                 {
                     ValidateViewModel(orderViewModel);
