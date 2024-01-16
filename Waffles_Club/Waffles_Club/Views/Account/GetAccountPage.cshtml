@@ -1,0 +1,24 @@
+﻿@model UserViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" href="~/css/personalArea.css"> <!-- Путь к файлу стилей -->
+</head>
+<body>
+    <header>
+        <h1>Личный кабинет</h1>
+        <img src="images/avatar.png" width="50" alt="User" class="rounded" />
+        <div class="auth-buttons">
+            <h1>Имя : @Model.Name</h1><br>
+            <h1>Email : @Model.Email</h1>
+        </div>
+    </header>
+    <div class="navigation-button">
+        <a href="@Url.Action("Index","Waffle")" class="btn">Вернуться в каталог</a>
+    </div>
+</body>
+</html>

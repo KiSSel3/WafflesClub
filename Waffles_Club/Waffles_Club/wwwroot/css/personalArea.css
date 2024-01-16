@@ -1,0 +1,315 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 30px;
+    text-align: center;
+}
+
+.catalog {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+    .catalog ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .catalog li {
+        margin: 20px;
+        text-align: center;
+    }
+
+    .catalog img {
+        width: 350px;
+        height: auto;
+    }
+
+.product {
+    text-align: center;
+    padding: 20px;
+}
+
+    .product img {
+        width: 400px;
+        height: auto;
+    }
+
+.order {
+    text-align: center;
+    padding: 20px;
+}
+
+    .order p {
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.navigation-button {
+    position: fixed;
+    bottom: 20px;
+    left: 200px;
+}
+
+    .navigation-button .btn {
+        display: inline-block;
+        padding: 15px 30px; /* Увеличиваем размер кнопки */
+        background-color: #000; /* Задаем черный фон */
+        color: #fff; /* Задаем белый цвет текста */
+        text-decoration: none;
+        border-radius: 8px; /* Увеличиваем радиус скругления углов */
+    }
+
+.finish .btn a {
+    padding: 30px 60px;
+    height: 20px;
+    width: auto;
+    text-align: center;
+    background-color: #1861ac;
+    color: #e5e5e5;
+    font-size: 20px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+.order .catalog {
+    color: crimson;
+}
+
+.top-buttons {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 20px; /* Добавим небольшой отступ снизу */
+}
+
+.top-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25%;
+    padding: 15px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .top-button::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background-color: white;
+    }
+
+    .top-button:first-child::before {
+        display: none; /* Убираем полосу перед первой кнопкой */
+    }
+
+    .top-button:hover {
+        background-color: #333;
+    }
+
+.btn-auth {
+    color: #000;
+    background-color: #fff;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none; /* Убираем подчеркивание */
+    margin-top: 10px;
+}
+
+    .btn-auth:hover {
+        color: #fff;
+        background-color: #1b6ec2;
+        border-color: #1861ac;
+        text-decoration: none; /* Убираем подчеркивание */
+    }
+
+button {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 20px;
+    text-align: center;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+}
+
+.catalog-item .button {
+    background-color: #1861ac;
+    color: #e5e5e5;
+    text-decoration: none;
+    margin-top: 0;
+}
+
+.form-button {
+    background-color: #1861ac;
+    color: #e5e5e5;
+    text-decoration: none;
+    margin-top: 0;
+}
+/* Стили для кнопки "Редактировать" */
+.edit-button {
+    background-color: #3498db;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+    .edit-button:hover {
+        background-color: #2980b9;
+    }
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+}
+
+.center-button {
+    text-align: center;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    align-items: center;
+}
+
+    .center-button:hover {
+        background-color: #2980b9;
+    }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+.bullet {
+    vertical-align: middle;
+    margin-right: 5px; /* Опционально для добавления отступа между точкой и текстом */
+}
+
+.btn-icon {
+    float: right;
+    margin-right: 20px;
+    margin-top: 40px;
+}
+
+    .btn-icon img {
+        width: 50px;
+        height: 50px;
+        filter: brightness(0);
+    }
+
+.btn-custom {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column; /* Изменяем направление гибкого контейнера на вертикальное */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: -250px;
+}
+
+    .center-container p {
+        margin-bottom: 10px; /* Добавляем отступ снизу между <p> и <a> */
+        font-weight: bold;
+    }
+
+    .center-container a {
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+
+.order-cost {
+    font-size: 18px; /* Размер текста в <p> */
+    margin-bottom: 10px; /* Отступ снизу, чтобы создать пространство перед кнопкой */
+}
+
+.bigger-button {
+    font-size: 20px; /* Увеличьте размер текста на кнопке */
+    padding: 12px 24px; /* Увеличьте отступы кнопки, чтобы она стала больше */
+    background-color: #3498db;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+    .bigger-button:hover {
+        background-color: #2980b9;
+    }

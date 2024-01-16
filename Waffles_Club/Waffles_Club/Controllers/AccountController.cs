@@ -60,6 +60,23 @@ namespace Waffles_Club.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetAccountPage()
+        {
+            try
+            {
+                string userId = User.FindFirst("UserId")?.Value;
+                var user = await _userService.GetById(userId);
+                return View(new UserViewModel { Name = user.Name, Email = user.Email, });
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel() { RequestId = ex.Message });
+            }
+            
+
+        }
+
+        [HttpGet]
         [Authorize]
         public async Task<IActionResult> Logout()
         {
