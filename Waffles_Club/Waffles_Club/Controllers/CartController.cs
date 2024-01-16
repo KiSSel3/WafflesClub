@@ -1,6 +1,7 @@
 ﻿using DwellEase.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Helpers;
 using Waffles_Club.Data.Entity;
 using Waffles_Club.Service.Services.Interfaces;
 using Waffles_Club.Shared.ViewModels;
@@ -11,10 +12,12 @@ namespace Waffles_Club.Controllers
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
+        private readonly IWaffleService _waffleService;
 
-        public CartController(ICartService cartService)
+        public CartController(ICartService cartService, IWaffleService waffleService)
         {
             _cartService = cartService;
+            _waffleService = waffleService;
         }
         private void ValidateViewModel(CartViewModel cartViewModel)
         {
@@ -31,7 +34,14 @@ namespace Waffles_Club.Controllers
             {
                 string userId = User.FindFirst("UserId")?.Value;
                 var carts = await _cartService.GetByUserIdAsync(userId);
-                return View(carts);
+                var cartsViewModelList= new List<CartsListViewModel>();
+                foreach (var cart in carts) 
+                {
+                    var waffle=await _waffleService.GetWaffleByIdAsync(cart.WaffleId);
+                    var cartViewModel = new CartsListViewModel { Count = cart.Count, Waffle = waffle };
+                    cartsViewModelList.Add(cartViewModel);
+                }
+                return View(cartsViewModelList);
             }
             catch (Exception ex)
             {
@@ -47,7 +57,14 @@ namespace Waffles_Club.Controllers
                 var cartViewModel = new CartViewModel() { UserId = User.FindFirst("UserId")?.Value, WaffleId = waffleId };
                 ValidateViewModel(cartViewModel);
                 var newCarts = await _cartService.AddToCartAsync(cartViewModel);
-                return View(newCarts);
+                var cartsViewModelList = new List<CartsListViewModel>();
+                foreach (var cart in newCarts)
+                {
+                    var waffle = await _waffleService.GetWaffleByIdAsync(cart.WaffleId);
+                    var cartsViewModel = new CartsListViewModel { Count = cart.Count, Waffle = waffle };
+                    cartsViewModelList.Add(cartsViewModel);
+                }
+                return View(cartsViewModelList);
 
             }
             catch (Exception ex)
@@ -63,7 +80,14 @@ namespace Waffles_Club.Controllers
                 var cartViewModel = new CartViewModel() { UserId = User.FindFirst("UserId")?.Value, WaffleId = waffleId };
                 ValidateViewModel(cartViewModel);
                 var newCarts = await _cartService.DeleteFromCartAsync(cartViewModel);
-                return View(newCarts);
+                var cartsViewModelList = new List<CartsListViewModel>();
+                foreach (var cart in newCarts)
+                {
+                    var waffle = await _waffleService.GetWaffleByIdAsync(cart.WaffleId);
+                    var cartsViewModel = new CartsListViewModel { Count = cart.Count, Waffle = waffle };
+                    cartsViewModelList.Add(cartsViewModel);
+                }
+                return View(cartsViewModelList);
 
             }
             catch (Exception ex)

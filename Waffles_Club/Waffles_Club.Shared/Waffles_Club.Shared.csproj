@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Waffles_Club.DataManagment\Waffles_Club.DataManagment.csproj" />
       <ProjectReference Include="..\Waffles_Club.Data\Waffles_Club.Data.csproj" />
     </ItemGroup>
 
