@@ -159,7 +159,7 @@ public class UserService : IUserService
             HandleError("Login or password entered incorrectly");
         }
 
-        return Authenticate(user);
+        return (await Authenticate(user));
     }
 
     public async Task<ClaimsIdentity> RegisterAsync(RegisterViewModel model)
@@ -183,7 +183,7 @@ public class UserService : IUserService
 
         await AddToRoleAsync(model.Login, "User");
 
-        return Authenticate(user);
+        return (await Authenticate(user));
     }
 
     public async Task<bool> CheckUserRole(string userId, string roleName)
@@ -214,11 +214,12 @@ public class UserService : IUserService
         return false;
     }
 
-    private ClaimsIdentity Authenticate(User user)
-    {
+    private async Task<ClaimsIdentity> Authenticate(User user)
+    {   
         List<Claim> claims = new List<Claim>()
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                new Claim("IsAdmin", (await CheckUserRole(user.Id.ToString(), "Admin")).ToString()),
                 new Claim("UserId", user.Id.ToString()),
             };
 
