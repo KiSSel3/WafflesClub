@@ -8,7 +8,6 @@ using Waffles_Club.Shared.ViewModels;
 
 namespace Waffles_Club.Controllers
 {
-    [Authorize]
 	public class WaffleController : Controller
     {
 		private readonly IWaffleService _waffleService;

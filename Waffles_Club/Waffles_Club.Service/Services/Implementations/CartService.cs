@@ -32,11 +32,9 @@ public class CartService:ICartService
     public async Task<List<Cart>> GetByUserIdAsync(string userId)
     {
         var guidUserId = _guidMapper.MapTo(userId);
+
         var carts= await _cartRepository.GetByUserId(guidUserId);
-        if (carts.Count==0)
-        {
-            HandleError($"Cart with user id: {guidUserId} not found");
-        }
+
         return carts;
     }
 

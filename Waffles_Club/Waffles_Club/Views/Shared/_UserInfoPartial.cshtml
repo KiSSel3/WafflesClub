@@ -1,0 +1,48 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <div class="dropdown ms-4 nav-color ms-auto me-4">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <img class="rounded nav-color" src="images/avatar.png" alt="User" width="30" />
+            @User.Identity.Name
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+            <li>
+                <span class="dropdown-item-text">
+                    <img src="images/avatar.png" width="50" alt="User" class="rounded" />
+                    @User.Identity.Name
+                </span>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                @await Component.InvokeAsync("Cart", new { userId = User.FindFirst("UserId").Value })
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <a class="nav-link btn btn-link text-dark" href="#" @* asp-controller="Waffle" asp-action="Index" *@>
+                    Личный кабинет
+                </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <a class="nav-link btn btn-link text-dark" href="#" @* asp-controller="Waffle" asp-action="Index" *@>
+                    История заказов
+                </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <a class="nav-link btn btn-link text-dark" asp-controller="Account" asp-action="Logout">
+                    Выйти
+                </a>
+            </li>
+        </ul>
+    </div>
+}
+else
+{
+    <div class="ms-auto me-4">
+        <a class="nav-link btn btn-primary text-light" asp-controller="Account" asp-action="Authorization">
+            Login
+        </a>
+    </div>
+}
