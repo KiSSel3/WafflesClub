@@ -109,5 +109,28 @@ namespace Waffles_Club.Controllers
                 return View("Error", new ErrorViewModel() { RequestId = ex.Message });
             }
 		}
+
+        public async Task<IActionResult> Details(Guid waffleId)
+        {
+            try
+            {
+                var viewModel = new WaffleDetailsViewModel();
+
+                var waffle = await _waffleService.GetWaffleByIdAsync(waffleId);
+                viewModel.Waffle = waffle;
+
+                var waffleType = await _waffleTypeService.GetByIdAsync(waffle.TypeId);
+                viewModel.WaffleType = waffleType;
+
+                var fillingType = await _fillingTypeService.GetByIdAsync(waffle.FillingTypeId);
+                viewModel.FillingType = fillingType;
+
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel() { RequestId = ex.Message });
+            }
+        }        
     }
 }
