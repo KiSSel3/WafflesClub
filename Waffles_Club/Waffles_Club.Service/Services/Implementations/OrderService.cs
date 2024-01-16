@@ -104,16 +104,44 @@ namespace Waffles_Club.Service.Services.Implementations
 			return statusOrders;
 		}
 
-		public async Task<List<Order>> GetOrdersByUserIdAsync(string userId)
-		{
-			var guidUserId = _guidMapper.MapTo(userId);
+        public async Task<List<OrderListViewModel>> GetOrdersByUserIdAsync(string userId)
+        {
+            var guidUserId = _guidMapper.MapTo(userId);
 
-			var ordersByUser = await _orderRepository.GetByUserId(guidUserId);
+            var ordersByUser = await _orderRepository.GetByUserId(guidUserId);
+            List<OrderListViewModel> orderListViewModels = new List<OrderListViewModel>();
 
-			return ordersByUser;
-		}
+            foreach (var order in ordersByUser)
+            {
+                // Получаем связанные OrderWaffle для каждого заказа
+                var orderWaffles = await _orderWaffleRepository.GetByOrderId(order.Id);
 
-		public async Task<List<Waffle>> GetWafflesByOrderIdAsync(Guid orderId)
+                // Создаем список CartsListViewModel для каждого OrderWaffle
+                var cartsListViewModelTasks = orderWaffles.Select(async ow => new CartsListViewModel
+                {
+                    Waffle = await _waffleRepository.GetById(ow.WaffleId),
+                    Count = ow.Count
+                });
+
+                // Дожидаемся выполнения всех задач
+                var cartsListViewModels = await Task.WhenAll(cartsListViewModelTasks);
+                // Создаем OrderListViewModel для текущего заказа
+                var orderListViewModel = new OrderListViewModel
+                {
+					Id= order.Id,
+                    Date = order.Date,
+                    Carts = cartsListViewModels.ToList(),
+                    Status = order.OrderStatus
+                };
+
+                orderListViewModels.Add(orderListViewModel);
+            }
+
+            return orderListViewModels;
+        }
+
+
+        public async Task<List<Waffle>> GetWafflesByOrderIdAsync(Guid orderId)
 		{
 			var waffles = new List<Waffle>();
 

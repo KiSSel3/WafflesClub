@@ -1,0 +1,52 @@
+﻿@using AppleStore.Extensions
+@model List<OrderListViewModel>
+@{
+    var orderCost = new decimal();
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" href="~/css/personalArea.css"> <!-- Путь к файлу стилей -->
+</head>
+<body>
+    <header>
+        <h1>История заказов</h1>
+        <img src="/images/orders.png" width="50" alt="User" class="rounded" />
+    </header>
+    <table>
+        <thead>
+            <tr>
+                <th>Заказанные товары</th>
+                <th>Цена</th>
+                <th>Статус</th>
+                <th>Дата создания заказа</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var viewModel in Model)
+            {
+                orderCost=0;
+                <tr>
+                    <td>
+                        @foreach (var cart in viewModel.Carts)
+                        {
+                            <span class="bullet">&#8226;</span>@cart.Waffle.Name  @cart.Count<br/>
+                            orderCost+= @cart.Waffle.Price;
+                            
+                        }
+                    </td>
+                    <td>@orderCost $</td>
+                    <td>@viewModel.Status.DisplayName()</td>
+                    <td>@viewModel.Date</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="navigation-button">
+        <a href="@Url.Action("Index","Waffle")" class="btn">Вернуться в каталог</a>
+    </div>
+</body>
+</html>

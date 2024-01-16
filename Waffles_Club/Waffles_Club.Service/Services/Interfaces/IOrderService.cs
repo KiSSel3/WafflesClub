@@ -13,8 +13,8 @@ namespace Waffles_Club.Service.Services.Interfaces
 	public interface IOrderService
 	{
 		public Task<List<Order>> GetAllOrdersAsync();
-		public Task<List<Order>> GetOrdersByUserIdAsync(string userId);
-		public Task<List<Order>> GetOrdersByStatusAsync(OrderStatus status);
+		Task<List<OrderListViewModel>> GetOrdersByUserIdAsync(string userId);
+        public Task<List<Order>> GetOrdersByStatusAsync(OrderStatus status);
 		public Task<List<Waffle>> GetWafflesByOrderIdAsync(Guid orderId);
 		public Task<Order> GetOrderByIdAsync(Guid orderId);
 		public Task<Order> DeleteOrderByIdAsync(Guid orderId);

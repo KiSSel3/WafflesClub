@@ -3,11 +3,16 @@
 @{
     Layout = null;
     decimal orderCost = Model.Sum(cartItem => cartItem.Waffle.Price * cartItem.Count);
-    List<OrderViewModel> orderViewModels =Model.Select(cartItem => new OrderViewModel
-            {
-                WaffleId = cartItem.Waffle.Id,
-                Count = cartItem.Count
-            }).ToList();
+    List<OrderViewModel> orderViewModels = new List<OrderViewModel>();
+    foreach(var cartViewModel in Model)
+    {
+        var orderViewModel = new OrderViewModel
+                {
+                    Count = cartViewModel.Count,
+                    WaffleId = cartViewModel.Waffle.Id
+                };
+        orderViewModels.Add(orderViewModel);
+    }
 }
 
 <!DOCTYPE html>
@@ -19,6 +24,7 @@
 <body>
     <header>
         <h1>Корзина</h1>
+        <h1>@orderViewModels.Count</h1>
         <img src="/images/cart.png" width="50" alt="User" class="rounded" />
     </header>
     <table>
