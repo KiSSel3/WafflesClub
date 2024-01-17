@@ -1,4 +1,4 @@
-﻿@model Waffles_Club.Shared.ViewModels.WaffleDetailsViewModel
+﻿@model Waffles_Club.Shared.ViewModels.WaffleViewModel
 @{
     Layout = "_AdminLayout";
 }
@@ -11,30 +11,42 @@
 </head>
 <body>
     <div>
-        <form href="/Admin/Waffle/Create" method="post">
-            <label asp-for="Waffle.Name">Название:</label>
-            <input asp-for="Waffle.Name" class="form-control" />
-            <label asp-for="Waffle.Description">Описание:</label>
-            <input asp-for="Waffle.Description" class="form-control" />
-            <label asp-for="Waffle.Price">Цена:</label>
-            <input asp-for="Waffle.Price" class="form-control" />
-            <label asp-for="Waffle.ImageUrl">URL на картинку:</label>
-            <input asp-for="Waffle.ImageUrl" class="form-control" />
-            <label asp-for="Waffle.TypeId">Тип вафли</label>
-            <select asp-for="Waffle.TypeId" class="form-control">
-                @foreach (var waffleType in ViewBag.WaffleTypes)
+       <form action="/Admin/Waffle/Create" method="post">
+
+            <label asp-for="Name">Название:</label>
+            <input asp-for="Name" class="form-control" name="Name" />
+
+            <label asp-for="CountInPackage">Количество в пачке:</label>
+            <input asp-for="CountInPackage" class="form-control"  name="CountInPackage" />
+
+            <label asp-for="Weight">Вес:</label>
+            <input asp-for="Weight" class="form-control"  name="Weight" />
+
+            <label asp-for="Description">Описание:</label>
+            <input asp-for="Description" class="form-control"  name="Description" />
+
+            <label asp-for="Price">Цена:</label>
+            <input asp-for="Price" class="form-control"  name="Price" />
+
+            <label asp-for="ImageUrl">URL на картинку:</label>
+            <input asp-for="ImageUrl" class="form-control"  name="ImageUrl" />
+
+            <label asp-for="TypeId">Тип вафли:</label>
+            <select asp-for="TypeId" class="form-control" name="TypeId">
+                @foreach (var type in ViewBag.WaffleTypes)
                 {
-                    <option value="@waffleType.Id">@waffleType.Name</option>
+                    <option value="@type.Id">@type.Name</option>
                 }
             </select>
-            <label asp-for="Waffle.FillingTypeId">Тип начинки</label>
-            <select asp-for="Waffle.FillingTypeId" class="form-control">
-                @foreach (var fillingType in ViewBag.FillingTypes)
+
+            <label asp-for="FillingTypeId">Тип наполнения:</label>
+            <select asp-for="FillingTypeId" class="form-control" name="FillingTypeId">
+                @foreach (var type in ViewBag.FillingTypes)
                 {
-                    <option value="@fillingType.Id">@fillingType.Name</option>
+                    <option value="@type.Id">@type.Name</option>
                 }
             </select>
-            <button type="submit">Создать Вафлю</button>
+            <button type="submit">Создать вафлю</button>
         </form>
     </div>
 </body>

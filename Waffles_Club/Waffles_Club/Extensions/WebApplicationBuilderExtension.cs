@@ -24,6 +24,7 @@ public static class WebApplicationBuilderExtension
 
         //Mappers
         builder.Services.AddScoped<StringToGuidMapper>();
+        builder.Services.AddScoped<WaffleMapper>();
 
 		//Repository
 		builder.Services.AddScoped<ICartRepository, CartRepository>();

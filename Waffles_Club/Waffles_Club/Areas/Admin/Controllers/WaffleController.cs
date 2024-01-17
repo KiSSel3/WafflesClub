@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Waffles_Club.Data.Entity;
 using Waffles_Club.Service.Services.Interfaces;
+using Waffles_Club.Shared.Mappers;
 using Waffles_Club.Shared.ViewModels;
 
 namespace Waffles_Club.Areas.Admin.Controllers
@@ -12,12 +13,14 @@ namespace Waffles_Club.Areas.Admin.Controllers
         private readonly IWaffleService _waffleService;
         private readonly IFillingTypeService _fillingTypeService;
         private readonly IWaffleTypeService _waffleTypeService;
+        private readonly WaffleMapper _waffleMapper;
 
-        public WaffleController(IWaffleService waffleService, IWaffleTypeService waffleTypeService, IFillingTypeService fillingTypeService)
+        public WaffleController(IWaffleService waffleService, IWaffleTypeService waffleTypeService, IFillingTypeService fillingTypeService, WaffleMapper waffleMapper)
         {
             _waffleService = waffleService;
             _waffleTypeService = waffleTypeService;
             _fillingTypeService = fillingTypeService;
+            _waffleMapper = waffleMapper;
         }
         private async Task UpdateViewBag()
         {
@@ -104,7 +107,6 @@ namespace Waffles_Club.Areas.Admin.Controllers
             }
         }
         [Authorize]
-        [HttpDelete]
         public async Task<IActionResult> Delete(Guid waffleId)
         {
             try
