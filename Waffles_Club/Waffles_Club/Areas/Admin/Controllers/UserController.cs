@@ -41,5 +41,25 @@ namespace Waffles_Club.Areas.Admin.Controllers
                 return View("Error", new ErrorViewModel() { RequestId = ex.Message });
             }
         }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Update(UpdateUserViewModel updateUserViewModel, Guid userId)
+        {
+            try
+            {
+                await _userService.UpdateAsync(userId.ToString(), updateUserViewModel);
+
+                return Redirect("/User/GetAllUsers");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("UpdateError", ex.Message);
+
+                var user = await _userService.GetById(userId.ToString());
+
+                return View("Edit", user);
+            }
+        }
     }
 }

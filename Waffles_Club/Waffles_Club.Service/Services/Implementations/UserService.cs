@@ -103,10 +103,20 @@ public class UserService : IUserService
     public async Task UpdateAsync(string userId, UpdateUserViewModel viewModel)
     {
         var guidUserId = _guidMapper.MapTo(userId);
+
         var user = await _userRepository.GetById(guidUserId);
-        if (user==null)
+        if (user == null)
         {
             HandleError($"User with id: {guidUserId} not found");
+        }
+
+        if(user.Login != viewModel.Login)
+        {
+            var userByNewLogin = await _userRepository.GetByLogin(viewModel.Login);
+            if (userByNewLogin != null)
+            {
+                HandleError("This login is already in use");
+            }
         }
 
         user.Name = viewModel.Name;
