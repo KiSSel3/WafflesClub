@@ -19,10 +19,11 @@ namespace Waffles_Club.Service.Services.Implementations
 		private readonly IOrderRepository _orderRepository;
 		private readonly IOrderWaffleRepository _orderWaffleRepository;
 		private readonly IWaffleRepository _waffleRepository;
+		private readonly ICartRepository _cartRepository;
 		private readonly StringToGuidMapper _guidMapper;
 
-		public OrderService(IOrderRepository orderRepository, IOrderWaffleRepository orderWaffleRepository, IWaffleRepository waffleRepository, StringToGuidMapper guidMapper) =>
-			(_orderRepository, _orderWaffleRepository, _waffleRepository, _guidMapper) = (orderRepository, orderWaffleRepository, waffleRepository, guidMapper);
+		public OrderService(IOrderRepository orderRepository, IOrderWaffleRepository orderWaffleRepository, IWaffleRepository waffleRepository, ICartRepository cartRepository, StringToGuidMapper guidMapper) =>
+			(_orderRepository, _orderWaffleRepository, _waffleRepository, _cartRepository, _guidMapper) = (orderRepository, orderWaffleRepository, waffleRepository, cartRepository, guidMapper);
 
 		public async Task<OrderWaffle> AddWaffleToOrder(Guid orderId, Guid waffleId)
 		{
@@ -161,7 +162,7 @@ namespace Waffles_Club.Service.Services.Implementations
 
 			return waffles;
 		}
-		public async Task CreateOrder(string userId,List<OrderViewModel> orderViewModels)
+		public async Task CreateOrder(string userId, List<OrderViewModel> orderViewModels)
 		{
             var guidUserId = _guidMapper.MapTo(userId);
 			var currentDate= DateTime.Now;
@@ -185,6 +186,8 @@ namespace Waffles_Club.Service.Services.Implementations
 
                 await _orderWaffleRepository.Create(orderWaffle);
             }
+
+			await _cartRepository.DeleteByUserId(guidUserId);
         }
 	}
 }

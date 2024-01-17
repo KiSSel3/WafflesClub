@@ -11,11 +11,13 @@ namespace Waffles_Club.Controllers
 {
     public class OrderController : Controller
     {
-      private readonly IOrderService _orderService;
+        private readonly IOrderService _orderService;
+        private readonly ICartService _cartService;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, ICartService cartService)
         {
             _orderService = orderService;
+            _cartService = cartService;
         }
         private void ValidateViewModel(OrderViewModel orderViewModel)
         {
@@ -40,17 +42,28 @@ namespace Waffles_Club.Controllers
             }
         }
         [Authorize]
-        public async Task<IActionResult> CreateOrder(List<OrderViewModel> orderViewModels)
+        public async Task<IActionResult> CreateOrder()
         {
             try
             {
                 var userId = User.FindFirst("UserId")?.Value;
-                foreach (var orderViewModel in orderViewModels)
+
+                var carts = await _cartService.GetByUserIdAsync(userId);
+
+                List<OrderViewModel> orderViewModels = new List<OrderViewModel>();
+                foreach(var cart in carts)
                 {
-                    ValidateViewModel(orderViewModel);
+                    var orderViewModel = new OrderViewModel
+                    {
+                        Count = cart.Count,
+                        WaffleId = cart.WaffleId
+                    };
+
+                    orderViewModels.Add(orderViewModel);
                 }
-                await _orderService.CreateOrder(userId,orderViewModels);
-                return View();
+
+                await _orderService.CreateOrder(userId, orderViewModels);
+                return Redirect("/");
 
             }
             catch (Exception ex)

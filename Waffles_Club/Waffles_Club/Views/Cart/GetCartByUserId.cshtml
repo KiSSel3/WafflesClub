@@ -3,16 +3,6 @@
 @{
     Layout = null;
     decimal orderCost = Model.Sum(cartItem => cartItem.Waffle.Price * cartItem.Count);
-    List<OrderViewModel> orderViewModels = new List<OrderViewModel>();
-    foreach(var cartViewModel in Model)
-    {
-        var orderViewModel = new OrderViewModel
-                {
-                    Count = cartViewModel.Count,
-                    WaffleId = cartViewModel.Waffle.Id
-                };
-        orderViewModels.Add(orderViewModel);
-    }
 }
 
 <!DOCTYPE html>
@@ -57,7 +47,7 @@
 
 <div class="center-container">
     <p class="order-cost"><br>Стоимость: @orderCost<br/></p>
-        <a class="bigger-button" href="@Url.Action("CreateOrder", "Order", new { orderViewModels=orderViewModels})">Заказать</a>
+        <a class="bigger-button" asp-controller="Order" asp-action="CreateOrder">Заказать</a>
 </div>
     <div class="navigation-button">
         <a href="@Url.Action("Index","Waffle")" class="btn">Вернуться в каталог</a>

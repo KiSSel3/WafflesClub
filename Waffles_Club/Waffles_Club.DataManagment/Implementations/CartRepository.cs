@@ -46,4 +46,13 @@ public class CartRepository : ICartRepository
     {
         return await _dbContext.Carts.Where(a=>a.UserId== userId).ToListAsync();
     }
+
+    public async Task DeleteByUserId(Guid userId)
+    {
+        var cartsToDelete = await _dbContext.Carts.Where(c => c.UserId.Equals(userId)).ToListAsync();
+
+        _dbContext.Carts.RemoveRange(cartsToDelete);
+
+        await _dbContext.SaveChangesAsync();
+    }
 }
