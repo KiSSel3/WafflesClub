@@ -32,7 +32,7 @@ namespace Waffles_Club.Areas.Admin.Controllers
             try
             {
                 await UpdateViewBag();
-                var waffles = await _waffleService.GetWaffleListAsync();
+                var waffles = await _waffleService.GetWaffleDetailsList();
                 return View("Waffles", waffles);
             }
             catch (Exception ex)

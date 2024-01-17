@@ -1,0 +1,41 @@
+﻿@model Waffles_Club.Shared.ViewModels.WaffleDetailsViewModel
+@{
+    Layout = "_AdminLayout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Добавление вафли</title>
+</head>
+<body>
+    <div>
+        <form asp-action="Create" method="post">
+            <label asp-for="Waffle.Name">Название:</label>
+            <input asp-for="Waffle.Name" class="form-control" />
+            <label asp-for="Waffle.Description">Описание:</label>
+            <input asp-for="Waffle.Description" class="form-control" />
+            <label asp-for="Waffle.Price">Цена:</label>
+            <input asp-for="Waffle.Price" class="form-control" />
+            <label asp-for="Waffle.ImageUrl">URL на картинку:</label>
+            <input asp-for="Waffle.ImageUrl" class="form-control" />
+            <label asp-for="Waffle.WaffleType">Тип вафли</label>
+            <select asp-for="Waffle.WaffleType.Id" class="form-control">
+                @foreach (var waffleType in ViewBag.WaffleTypes)
+                {
+                    <option value="@waffleType.Id">@waffleType.Name</option>
+                }
+            </select>
+            <label asp-for="Waffle.FillingType">Тип начинки</label>
+            <select asp-for="Waffle.FillingType.Id" class="form-control">
+                @foreach (var fillingType in ViewBag.FillingTypes)
+                {
+                    <option value="@fillingType.Id">@fillingType.Name</option>
+                }
+            </select>
+            <button type="submit">Создать Вафлю</button>
+        </form>
+    </div>
+</body>
+</html>

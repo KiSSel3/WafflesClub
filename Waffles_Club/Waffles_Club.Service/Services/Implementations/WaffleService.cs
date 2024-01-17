@@ -15,11 +15,17 @@ namespace Waffles_Club.Service.Services.Implementations
 	public class WaffleService : IWaffleService
 	{
 		private readonly IWaffleRepository _waffleRepository;
+		private readonly IWaffleTypeRepository _waffleTypeRepository;
+		private readonly IFillingTypeRepository _fillingTypeRepository;
 
-		public WaffleService(IWaffleRepository waffleRepository) =>
+		public WaffleService(IWaffleRepository waffleRepository, IFillingTypeRepository fillingTypeRepository, IWaffleTypeRepository waffleTypeRepository)
+		{
 			_waffleRepository = waffleRepository;
+			_fillingTypeRepository = fillingTypeRepository;
+			_waffleTypeRepository= waffleTypeRepository;
+		}
 
-		public async Task<Waffle> CreateWaffleAsync(WaffleViewModel viewModel)
+        public async Task<Waffle> CreateWaffleAsync(WaffleViewModel viewModel)
 		{
 			var waffleByName = await _waffleRepository.GetByName(viewModel.Name);
 			if(waffleByName != null)
@@ -67,7 +73,25 @@ namespace Waffles_Club.Service.Services.Implementations
 			return waffleById;
 		}
 
-		public async Task<PaginatedList<Waffle>> GetWaffleListAsync(string? waffleName = null, Guid? waffleTypeId = null, Guid? fillingTypeId = null,
+        public async Task<List<WaffleDetailsViewModel>> GetWaffleDetailsList()
+        {
+			var waffles = await _waffleRepository.GetAll();
+            var waffleTypes = await _waffleTypeRepository.GetAll();
+            var fillingTypes = await _fillingTypeRepository.GetAll();
+
+            // Преобразовываем каждый объект Waffle в WaffleDetailsViewModel
+            var waffleDetailsList = waffles.Select(waffle => new WaffleDetailsViewModel
+            {
+                Waffle = waffle,
+                WaffleType = waffleTypes.FirstOrDefault(type => type.Id == waffle.TypeId),
+                FillingType = fillingTypes.FirstOrDefault(type => type.Id == waffle.FillingTypeId)
+            }).ToList();
+
+            return waffleDetailsList;
+        }
+
+
+        public async Task<PaginatedList<Waffle>> GetWaffleListAsync(string? waffleName = null, Guid? waffleTypeId = null, Guid? fillingTypeId = null,
 																	decimal? minPrice = 0, decimal? maxPrice = decimal.MaxValue, int pageNow = 1, int pageSize = 6, SortingParameters sortingParameters = SortingParameters.None)
 		{
 			var paginatedList = new PaginatedList<Waffle>();
