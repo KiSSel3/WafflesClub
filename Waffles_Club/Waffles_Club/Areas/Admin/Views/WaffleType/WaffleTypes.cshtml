@@ -1,0 +1,42 @@
+﻿@model List<Waffles_Club.Data.Entity.WaffleType>
+
+@{
+    Layout = "_AdminLayout";
+}
+
+@section Style {
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+}
+
+<h2>Waffle Types</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>NormalizedName</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var waffleType in Model)
+        {
+            <tr>
+                <td>@waffleType.Name</td>
+                <td>@waffleType.NormalizedName</td>
+                <td>
+                    <form action="/Admin/WaffleType/Delete" method="post">
+                        <input type="hidden" name="typeId" value="@waffleType.Id" />
+
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a href="/Admin/WaffleType/Create" class="btn btn-primary">Add New Waffle Type</a>
+</div>
