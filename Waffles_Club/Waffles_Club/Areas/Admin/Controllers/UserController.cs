@@ -50,7 +50,7 @@ namespace Waffles_Club.Areas.Admin.Controllers
             {
                 await _userService.UpdateAsync(userId.ToString(), updateUserViewModel);
 
-                return Redirect("/User/GetAllUsers");
+                return Redirect("/Admin/User/GetAllUsers");
             }
             catch (Exception ex)
             {
