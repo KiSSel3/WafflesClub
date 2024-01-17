@@ -190,9 +190,9 @@ namespace Waffles_Club.Service.Services.Implementations
 
 			await _cartRepository.DeleteByUserId(guidUserId);
         }
-        public async Task<List<OrderListViewModel>> GetAllOrdersAsync()
+        public async Task<List<OrderListViewModel>> GetAllOrdersViewModelsAsync()
         {
-            var orders = await _orderRepository.GetByUserId(guidUserId);
+            var orders = await _orderRepository.GetAll();
             List<OrderListViewModel> orderListViewModels = new List<OrderListViewModel>();
 
             foreach (var order in orders)
