@@ -190,5 +190,40 @@ namespace Waffles_Club.Service.Services.Implementations
 
 			await _cartRepository.DeleteByUserId(guidUserId);
         }
-	}
+        public async Task<List<OrderListViewModel>> GetAllOrdersAsync()
+        {
+            var orders = await _orderRepository.GetByUserId(guidUserId);
+            List<OrderListViewModel> orderListViewModels = new List<OrderListViewModel>();
+
+            foreach (var order in orders)
+            {
+                var orderWaffles = await _orderWaffleRepository.GetByOrderId(order.Id);
+
+                var cartsListViewModels = new List<CartsListViewModel>();
+                foreach (var orderWaffle in orderWaffles)
+                {
+                    var waffle = await _waffleRepository.GetById(orderWaffle.WaffleId);
+                    var cartsListViewModel = new CartsListViewModel
+                    {
+                        Waffle = waffle,
+                        Count = orderWaffle.Count
+                    };
+                    cartsListViewModels.Add(cartsListViewModel);
+                }
+
+                var orderListViewModel = new OrderListViewModel
+                {
+                    Id = order.Id,
+                    Date = order.Date,
+                    Carts = cartsListViewModels.ToList(),
+                    Status = order.OrderStatus
+                };
+
+                orderListViewModels.Add(orderListViewModel);
+            }
+
+            return orderListViewModels;
+        }
+    }
+    
 }

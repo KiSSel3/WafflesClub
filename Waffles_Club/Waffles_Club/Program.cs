@@ -27,5 +27,6 @@ var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentCla
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Waffle}/{action=Index}/{id?}");
+app.MapControllerRoute("Admin", "{area:exists}/{controller=Home}/{action=Index}");
 
 app.Run();

@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model WaffleDetailsViewModel 
+
+@{
+    Layout = "_AdminLayout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Редактирование вафли</title> <!-- Изменено на "Редактирование вафли" -->
+</head>
+<body>
+<div>
+    <form asp-area="Admin" asp-controller="Waffle" asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Waffle.Id" value="@Model.Waffle.Id" />
+        <label asp-for="Waffle.Name">Название:</label>
+        <input asp-for="Waffle.Name" class="form-control" value="@Model.Waffle.Name"/>
+        <label asp-for="Waffle.Description">Описание:</label>
+        <input asp-for="Waffle.Description" class="form-control" value="@Model.Waffle.Description"/>
+        <label asp-for="Waffle.Price">Цена:</label>
+        <input asp-for="Waffle.Price" class="form-control" value="@Model.Waffle.Price"/>
+        <label asp-for="Waffle.ImageUrl">URL на картинку:</label>
+        <input asp-for="Waffle.ImageUrl" class="form-control" value="@Model.Waffle.ImageUrl"/>
+        <label asp-for="WaffleType">Тип вафли:</label>
+        <select asp-for="WaffleType" class="form-control">
+                @foreach (var type in Enum.GetValues(typeof(Waffles_Club.Data.Entity.WaffleType)))
+                {
+                <option value="@type">@type</option>
+            }
+        </select>
+        <label asp-for="FillingType">Тип наполнения:</label>
+        <select asp-for="FillingType" class="form-control">
+                @foreach (var type in Enum.GetValues(typeof(Waffles_Club.Data.Entity.FillingType)))
+                {
+                <option value="@type">@type</option>
+            }
+        </select>
+        <button type="submit">Обновить вафлю</button> <!-- Изменено на "Обновить вафлю" -->
+    </form>
+    <div class="center-container">
+        <a class="center-button" href="@Url.Action("Delete", "Device", new { area = "Admin", id = @Model.Waffle.Id }) ">Удалить вафлю</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+﻿@using AppleStore.Extensions
+@model IEnumerable<WaffleDetailsViewModel> 
+@{
+    Layout = "_AdminLayout";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Waffle List</title> <!-- Изменено на "Waffle List" -->
+</head>
+<body>
+    <h2>Список вафель</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Изображение</th>
+                <th>Название</th>
+                <th>Цена</th>
+                <th>Описание</th>
+                <th>Тип вафли</th>
+                <th>Тип наполнения</th> <!-- Добавлен столбец для типа наполнения -->
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var waffleDetails in Model)
+            {
+                <tr>
+                    <td><img src="@waffleDetails.Waffle.ImageUrl" alt="@waffleDetails.Waffle.Name" width="50" height="50"></td>
+                    <td>@waffleDetails.Waffle.Name</td>
+                    <td>@waffleDetails.Waffle.Price руб</td>
+                    <td>@waffleDetails.Waffle.Description</td>
+                    <td>@waffleDetails.WaffleType.Name</td>
+                    <td>@waffleDetails.FillingType.Name</td> <!-- Добавлено отображение типа наполнения -->
+                    <td><a class="edit-button" href="@Url.Action("Edit", "Waffle", new { id = waffleDetails.Waffle.Id, area="Admin" })">Редактировать</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        <a class="edit-button" href="@Url.Action("Create", "Device",new {area="Admin"})">Добавить вафлю</a> <!-- Изменено на "Добавить вафлю" -->
+    </div>
+</body>
+</html>

@@ -21,6 +21,7 @@ namespace Waffles_Club.Service.Services.Interfaces
 		public Task<Order> ChangeStatusByOrderIdAsync(Guid orderId, OrderStatus newStatus);
 		public Task<OrderWaffle> AddWaffleToOrder(Guid orderId, Guid waffleId);
 		public Task CreateOrder(string userId, List<OrderViewModel> orderViewModels);
+		Task<List<OrderListViewModel>> GetAllOrdersViewModelsAsync();
 
     }
 }
