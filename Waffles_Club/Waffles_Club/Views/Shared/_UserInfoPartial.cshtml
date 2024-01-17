@@ -2,14 +2,14 @@
 {
     <div class="dropdown ms-4 nav-color ms-auto me-4">
         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            <img class="rounded nav-color" src="images/avatar.png" alt="User" width="30" />
+            <img class="rounded nav-color" src="~/images/avatar.png" alt="User" width="30" />
             @User.Identity.Name
         </button>
 
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
             <li>
                 <span class="dropdown-item-text">
-                    <img src="images/avatar.png" width="50" alt="User" class="rounded" />
+                    <img src="~/images/avatar.png" width="50" alt="User" class="rounded" />
                     @User.Identity.Name
                 </span>
             </li>
@@ -25,7 +25,7 @@
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>
-                <a class="nav-link btn btn-link text-dark"asp-controller ="Order" asp-action="GetOrdersByUserId">
+                <a class="nav-link btn btn-link text-dark" asp-controller ="Order" asp-action="GetOrdersByUserId">
                     История заказов
                 </a>
             </li>
