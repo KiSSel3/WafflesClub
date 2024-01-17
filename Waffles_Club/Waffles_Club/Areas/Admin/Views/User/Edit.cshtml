@@ -1,5 +1,14 @@
 ﻿@model Waffles_Club.Data.Entity.User
 
+@{
+    Layout = "_AdminLayout";
+}
+
+@section Style {
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+}
+
 <div class="modal fade" id="validationErrorsModal" tabindex="-1" aria-labelledby="validationErrorsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -17,7 +26,7 @@
     </div>
 </div>
 
-<form asp-area="Admin" asp-controller="User" asp-action="Update" method="post">
+<form href="/Admin/User/Update" method="post">
     <div class="form-group">
         <label for="inputLogin2"><i class="fa fa-user"></i>&nbsp;Login</label>
         <input name="Login" type="text" class="form-control" value="@Model.Login" id="inputLogin2">
@@ -36,7 +45,7 @@
     </button>
 </form>
 
-@section scripts {
+@section Scripts {
     <script>
         $(document).ready(function () {
         @if (!ViewData.ModelState.IsValid)
