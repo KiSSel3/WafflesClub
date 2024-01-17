@@ -114,19 +114,20 @@ namespace Waffles_Club.Service.Services.Implementations
 
             foreach (var order in ordersByUser)
             {
-                // Получаем связанные OrderWaffle для каждого заказа
                 var orderWaffles = await _orderWaffleRepository.GetByOrderId(order.Id);
 
-                // Создаем список CartsListViewModel для каждого OrderWaffle
-                var cartsListViewModelTasks = orderWaffles.Select(async ow => new CartsListViewModel
+                var cartsListViewModels = new List<CartsListViewModel>();
+                foreach (var orderWaffle in orderWaffles)
                 {
-                    Waffle = await _waffleRepository.GetById(ow.WaffleId),
-                    Count = ow.Count
-                });
+                    var waffle = await _waffleRepository.GetById(orderWaffle.WaffleId);
+                    var cartsListViewModel = new CartsListViewModel
+                    {
+                        Waffle = waffle,
+                        Count = orderWaffle.Count
+                    };
+                    cartsListViewModels.Add(cartsListViewModel);
+                }
 
-                // Дожидаемся выполнения всех задач
-                var cartsListViewModels = await Task.WhenAll(cartsListViewModelTasks);
-                // Создаем OrderListViewModel для текущего заказа
                 var orderListViewModel = new OrderListViewModel
                 {
 					Id= order.Id,
