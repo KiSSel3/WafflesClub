@@ -20,15 +20,15 @@
             <input asp-for="Waffle.Price" class="form-control" />
             <label asp-for="Waffle.ImageUrl">URL на картинку:</label>
             <input asp-for="Waffle.ImageUrl" class="form-control" />
-            <label asp-for="Waffle.WaffleType">Тип вафли</label>
-            <select asp-for="Waffle.WaffleType.Id" class="form-control">
+            <label asp-for="Waffle.TypeId">Тип вафли</label>
+            <select asp-for="Waffle.TypeId" class="form-control">
                 @foreach (var waffleType in ViewBag.WaffleTypes)
                 {
                     <option value="@waffleType.Id">@waffleType.Name</option>
                 }
             </select>
-            <label asp-for="Waffle.FillingType">Тип начинки</label>
-            <select asp-for="Waffle.FillingType.Id" class="form-control">
+            <label asp-for="Waffle.FillingTypeId">Тип начинки</label>
+            <select asp-for="Waffle.FillingTypeId" class="form-control">
                 @foreach (var fillingType in ViewBag.FillingTypes)
                 {
                     <option value="@fillingType.Id">@fillingType.Name</option>
