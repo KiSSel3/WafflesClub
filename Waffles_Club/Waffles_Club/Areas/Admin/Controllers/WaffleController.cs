@@ -24,7 +24,7 @@ namespace Waffles_Club.Areas.Admin.Controllers
             var fillingTypes = await _fillingTypeService.GetAllAsync();
             var waffleTypes = await _waffleTypeService.GetAllAsync();
             ViewBag.FillingTypes = fillingTypes;
-            ViewBag.WafflesTypes = waffleTypes;
+            ViewBag.WaffleTypes = waffleTypes;
         }
         [Authorize]
         public async Task<IActionResult> GetAllWaffles()
@@ -68,7 +68,16 @@ namespace Waffles_Club.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            await UpdateViewBag();
             return View();
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Create(WaffleViewModel viewModel)
+        {
+            await _waffleService.CreateWaffleAsync(viewModel);
+            var waffles=await _waffleService.GetWaffleDetailsList();
+            return View("Waffles", waffles);
         }
     }
 }
