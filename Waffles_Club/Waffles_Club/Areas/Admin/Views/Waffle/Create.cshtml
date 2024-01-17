@@ -11,7 +11,7 @@
 </head>
 <body>
     <div>
-        <form asp-action="Create" method="post">
+        <form asp-controller="Waffle" asp-action="Create" method="post">
             <label asp-for="Waffle.Name">Название:</label>
             <input asp-for="Waffle.Name" class="form-control" />
             <label asp-for="Waffle.Description">Описание:</label>
