@@ -72,6 +72,23 @@ namespace Waffles_Club.Service.Services.Implementations
 
 			return waffleById;
 		}
+		public async Task<WaffleDetailsViewModel> GetWaffleDetailById(Guid waffleId)
+		{
+            var waffleById = await _waffleRepository.GetById(waffleId);
+            if (waffleById == null)
+            {
+                throw new Exception("No waffle");
+            }
+            var waffleType = (await _waffleTypeRepository.GetAll()).FirstOrDefault(a=>a.Id==waffleById.TypeId);
+            var fillingType = (await _fillingTypeRepository.GetAll()).FirstOrDefault(a => a.Id == waffleById.FillingTypeId);
+			var waffleDetail = new WaffleDetailsViewModel()
+			{
+				FillingType = fillingType,
+				WaffleType = waffleType,
+				Waffle = waffleById
+			};
+			return waffleDetail;
+        }
 
         public async Task<List<WaffleDetailsViewModel>> GetWaffleDetailsList()
         {
@@ -148,12 +165,7 @@ namespace Waffles_Club.Service.Services.Implementations
 
 		public async Task<Waffle> UpdateWaffleAsync(Guid waffleId, WaffleViewModel viewModel)
 		{
-			var waffleByName = await _waffleRepository.GetByName(viewModel.Name);
-			if (waffleByName != null)
-			{
-				throw new Exception("A waffle already exists");
-			}
-
+			
 			var waffleById = await _waffleRepository.GetById(waffleId);
 			if (waffleById == null)
 			{

@@ -47,7 +47,7 @@ namespace Waffles_Club.Areas.Admin.Controllers
             try
             {
                 await UpdateViewBag();
-                var waffle= await _waffleService.GetWaffleByIdAsync(waffleId);
+                var waffle= await _waffleService.GetWaffleDetailById(waffleId);
                 return View("Edit", waffle);
             }
             catch (Exception ex)
@@ -57,27 +57,67 @@ namespace Waffles_Club.Areas.Admin.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Update(WaffleViewModel viewModel,Guid waffleId)
+        public async Task<IActionResult> Update(WaffleViewModel viewModel, Guid waffleId)
         {
-            await _waffleService.UpdateWaffleAsync(waffleId,viewModel);
-            var waffles = await _waffleService.GetWaffleListAsync();
-            return View("Waffles", waffles);
+            try
+            {
+                await _waffleService.UpdateWaffleAsync(waffleId, viewModel);
+                var waffles = await _waffleService.GetWaffleDetailsList();
+                return View("Waffles", waffles);
+            }
+            catch(Exception ex)
+            {
+                return View("Error", new ErrorViewModel() { RequestId = ex.Message });
+            }
         }
 
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            await UpdateViewBag();
-            return View();
+            try
+            {
+                await UpdateViewBag();
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel() { RequestId = ex.Message });
+            }
+           
         }
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(WaffleViewModel viewModel)
         {
-            await _waffleService.CreateWaffleAsync(viewModel);
-            var waffles=await _waffleService.GetWaffleDetailsList();
-            return View("Waffles", waffles);
+           
+            try
+            {
+                await _waffleService.CreateWaffleAsync(viewModel);
+                var waffles = await _waffleService.GetWaffleDetailsList();
+                await UpdateViewBag();
+                return View("Waffles", waffles);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel() { RequestId = ex.Message });
+            }
+        }
+        [Authorize]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid waffleId)
+        {
+            try
+            {
+                await _waffleService.DeleteWaffleAsync(waffleId);
+                var waffles = await _waffleService.GetWaffleDetailsList();
+                await UpdateViewBag();
+                return View("Waffles", waffles);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel() { RequestId = ex.Message });
+            }
         }
     }
 }

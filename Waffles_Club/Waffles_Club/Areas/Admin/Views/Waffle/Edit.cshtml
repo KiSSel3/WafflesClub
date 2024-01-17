@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model WaffleDetailsViewModel 
+﻿@model WaffleDetailsViewModel
 
 @{
     Layout = "_AdminLayout";
@@ -9,39 +8,54 @@
 
 <html>
 <head>
-    <title>Редактирование вафли</title> <!-- Изменено на "Редактирование вафли" -->
+    <title>Редактирование вафли</title>
 </head>
 <body>
-<div>
-    <form asp-area="Admin" asp-controller="Waffle" asp-action="Edit" method="post">
-        <input type="hidden" asp-for="Waffle.Id" value="@Model.Waffle.Id" />
-        <label asp-for="Waffle.Name">Название:</label>
-        <input asp-for="Waffle.Name" class="form-control" value="@Model.Waffle.Name"/>
-        <label asp-for="Waffle.Description">Описание:</label>
-        <input asp-for="Waffle.Description" class="form-control" value="@Model.Waffle.Description"/>
-        <label asp-for="Waffle.Price">Цена:</label>
-        <input asp-for="Waffle.Price" class="form-control" value="@Model.Waffle.Price"/>
-        <label asp-for="Waffle.ImageUrl">URL на картинку:</label>
-        <input asp-for="Waffle.ImageUrl" class="form-control" value="@Model.Waffle.ImageUrl"/>
-        <label asp-for="WaffleType">Тип вафли:</label>
-        <select asp-for="WaffleType" class="form-control">
-                @foreach (var type in Enum.GetValues(typeof(Waffles_Club.Data.Entity.WaffleType)))
+    <div>
+        <form action="/Admin/Waffle/Update" method="post">
+            <input type="hidden" asp-for="Waffle.Id" value="@Model.Waffle.Id" />
+            <input type="hidden" name="waffleId" value="@Model.Waffle.Id" />
+
+            <label asp-for="Waffle.Name">Название:</label>
+            <input asp-for="Waffle.Name" class="form-control" value="@Model.Waffle.Name" name="Name" />
+
+            <label asp-for="Waffle.CountInPackage">Количество в пачке:</label>
+            <input asp-for="Waffle.CountInPackage" class="form-control" value="@Model.Waffle.CountInPackage" name="CountInPackage" />
+
+            <label asp-for="Waffle.Weight">Вес:</label>
+            <input asp-for="Waffle.Weight" class="form-control" value="@Model.Waffle.Weight" name="Weight" />
+
+            <label asp-for="Waffle.Description">Описание:</label>
+            <input asp-for="Waffle.Description" class="form-control" value="@Model.Waffle.Description" name="Description" />
+
+            <label asp-for="Waffle.Price">Цена:</label>
+            <input asp-for="Waffle.Price" class="form-control" value="@Model.Waffle.Price" name="Price" />
+
+            <label asp-for="Waffle.ImageUrl">URL на картинку:</label>
+            <input asp-for="Waffle.ImageUrl" class="form-control" value="@Model.Waffle.ImageUrl" name="ImageUrl" />
+
+            <label asp-for="Waffle.TypeId">Тип вафли:</label>
+            <select asp-for="Waffle.TypeId" class="form-control" name="TypeId">
+                @foreach (var type in ViewBag.WaffleTypes)
                 {
-                <option value="@type">@type</option>
-            }
-        </select>
-        <label asp-for="FillingType">Тип наполнения:</label>
-        <select asp-for="FillingType" class="form-control">
-                @foreach (var type in Enum.GetValues(typeof(Waffles_Club.Data.Entity.FillingType)))
+                    <option value="@type.Id">@type.Name</option>
+                }
+            </select>
+
+            <label asp-for="Waffle.FillingTypeId">Тип наполнения:</label>
+            <select asp-for="Waffle.FillingTypeId" class="form-control" name="FillingTypeId">
+                @foreach (var type in ViewBag.FillingTypes)
                 {
-                <option value="@type">@type</option>
-            }
-        </select>
-        <button type="submit">Обновить вафлю</button> <!-- Изменено на "Обновить вафлю" -->
-    </form>
-    <div class="center-container">
-        <a class="center-button" href="@Url.Action("Delete", "Device", new { area = "Admin", id = @Model.Waffle.Id }) ">Удалить вафлю</a>
+                    <option value="@type.Id">@type.Name</option>
+                }
+            </select>
+
+            <button type="submit">Обновить вафлю</button>
+        </form>
+
+        <div class="center-container">
+            <a class="center-button" href=" /Admin/Waffle/Delete?waffleId =@Model.Waffle.Id" >Удалить вафлю</a>
+        </div>
     </div>
-</div>
 </body>
 </html>

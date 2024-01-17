@@ -33,7 +33,7 @@
                     <td>@waffleDetails.Waffle.Description</td>
                     <td>@waffleDetails.WaffleType.Name</td>
                     <td>@waffleDetails.FillingType.Name</td> <!-- Добавлено отображение типа наполнения -->
-                    <td><a class="edit-button" href="@Url.Action("Edit", "Waffle", new { id = waffleDetails.Waffle.Id, area="Admin" })">Редактировать</a></td>
+                    <td><a class="edit-button" href="/Admin/Waffle/Update?waffleId=@waffleDetails.Waffle.Id">Редактировать</a></td>
                 </tr>
             }
         </tbody>
