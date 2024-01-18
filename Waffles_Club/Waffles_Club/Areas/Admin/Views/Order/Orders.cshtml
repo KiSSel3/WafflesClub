@@ -1,0 +1,62 @@
+﻿@using AppleStore.Extensions;
+@model List<OrderListViewModel>
+@{
+    Layout = "_AdminLayout";
+    var orderCost = new decimal();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/personalArea.css"> <!-- Путь к файлу стилей -->
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Заказанные товары</th>
+                <th>Цена</th>
+                <th>Статус</th>
+                <th>Дата создания заказа</th>
+                <th>Изменить статус</th>
+                <th>Удалить заказ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var viewModel in Model)
+            {
+                orderCost = 0;
+                <tr>
+                    <td>
+                        @foreach (var cart in viewModel.Carts)
+                        {
+                            <span class="bullet">&#8226;</span>
+
+                            @cart.Waffle.Name  @cart.Count
+
+                            <br />
+                            orderCost += @cart.Waffle.Price;
+                        }
+                    </td>
+                    <td>@orderCost $</td>
+                    <td>@viewModel.Status.DisplayName()</td>
+                    <td>@viewModel.Date</td>
+                    <td>
+                        <form action="/Admin/Order/ChangeOrderStatus" method="post">
+                            <input type="hidden" name="orderId" value="@viewModel.Id" />
+                            <select name="newStatus">
+                                @foreach (var status in Enum.GetValues(typeof(OrderStatus)))
+                                {
+                                    <option value="@status">@status</option>
+                                }
+                            </select>
+                            <button type="submit">Изменить статус</button>
+                        </form>
+                    </td>
+
+                    <td><a class="edit-button" href="/Admin/Order/Delete?orderId=@viewModel.Id">Удалить заказ</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

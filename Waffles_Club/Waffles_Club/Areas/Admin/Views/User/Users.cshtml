@@ -1,3 +1,37 @@
-﻿@{
+﻿@using Waffles_Club.Data.Entity;
+@model IEnumerable<User>
+
+@{
     Layout = "_AdminLayout";
 }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User List</title>
+</head>
+<body>
+    <h2>Список пользователей</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Login</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Login</td>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td><a class="edit-button" href="/Admin/User/Update?userId=@user.Id">Редактировать</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

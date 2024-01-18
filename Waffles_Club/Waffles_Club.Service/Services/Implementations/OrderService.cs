@@ -60,9 +60,9 @@ namespace Waffles_Club.Service.Services.Implementations
 
 			orderById.OrderStatus = newStatus;
 
-			await _orderRepository.Update(orderById);
+			var newOrder=await _orderRepository.Update(orderById);
 
-			return orderById;
+			return newOrder;
 		}
 
 		public async Task<Order> DeleteOrderByIdAsync(Guid orderId)
@@ -141,6 +141,68 @@ namespace Waffles_Club.Service.Services.Implementations
 
             return orderListViewModels;
         }
+        public async Task<List<OrderListViewModel>> GetOrderViewModelsAsync()
+        {
+
+            var orders=await _orderRepository.GetAll();
+            List<OrderListViewModel> orderListViewModels = new List<OrderListViewModel>();
+
+            foreach (var order in orders)
+            {
+                var orderWaffles = await _orderWaffleRepository.GetByOrderId(order.Id);
+
+                var cartsListViewModels = new List<CartsListViewModel>();
+                foreach (var orderWaffle in orderWaffles)
+                {
+                    var waffle = await _waffleRepository.GetById(orderWaffle.WaffleId);
+                    var cartsListViewModel = new CartsListViewModel
+                    {
+                        Waffle = waffle,
+                        Count = orderWaffle.Count
+                    };
+                    cartsListViewModels.Add(cartsListViewModel);
+                }
+
+                var orderListViewModel = new OrderListViewModel
+                {
+                    Id = order.Id,
+                    Date = order.Date,
+                    Carts = cartsListViewModels.ToList(),
+                    Status = order.OrderStatus
+                };
+
+                orderListViewModels.Add(orderListViewModel);
+            }
+
+            return orderListViewModels;
+        }
+        public async Task<OrderListViewModel> GetOrderViewModelByIdAsync(Guid orderId)
+		{
+			var order = await _orderRepository.GetById(orderId);
+			var orderWaffles = await _orderWaffleRepository.GetByOrderId(orderId);
+
+			var cartsListViewModels = new List<CartsListViewModel>();
+			foreach (var orderWaffle in orderWaffles)
+			{
+				var waffle = await _waffleRepository.GetById(orderWaffle.WaffleId);
+				var cartsListViewModel = new CartsListViewModel
+				{
+					Waffle = waffle,
+					Count = orderWaffle.Count
+				};
+				cartsListViewModels.Add(cartsListViewModel);
+			}
+
+			var orderListViewModel = new OrderListViewModel
+			{
+				Id = orderId,
+				Date = order.Date,
+				Carts = cartsListViewModels.ToList(),
+				Status = order.OrderStatus
+			};
+
+			return orderListViewModel;
+		}
 
 
         public async Task<List<Waffle>> GetWafflesByOrderIdAsync(Guid orderId)
