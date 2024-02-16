@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Waffles_Club@peabody28.com" uuid="352d4cc4-f0b2-483e-bcf7-98cc2d883475">
+    <data-source source="LOCAL" name="Waffles_Club@localhost" uuid="9be036cc-0642-44be-b37c-0fbb59316647">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://peabody28.com:5894/Waffles_Club</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/Waffles_Club?password=CHEATS145&amp;user=postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

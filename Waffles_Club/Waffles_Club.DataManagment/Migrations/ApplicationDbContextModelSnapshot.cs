@@ -68,7 +68,7 @@ namespace Waffles_Club.DataManagment.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("OrderStatus")
                         .HasColumnType("integer");
@@ -94,6 +94,18 @@ namespace Waffles_Club.DataManagment.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("44546e06-8719-4ad8-b88a-f271ae9d6eab"),
+                            Name = "User"
+                        },
+                        new
+                        {
+                            Id = new Guid("9e7bf79c-bf94-4b40-a4f6-a3660e9dfd4a"),
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Waffles_Club.Data.Entity.User", b =>
