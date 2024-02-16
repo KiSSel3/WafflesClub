@@ -14,5 +14,6 @@ namespace Waffles_Club.Shared.ViewModels
         public DateTime Date { get; set; }
         public List<CartsListViewModel> Carts { get; set; }
         public OrderStatus Status { get; set; }
+        public string UserName { get; set; }
     }
 }

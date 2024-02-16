@@ -21,9 +21,14 @@ namespace Waffles_Club.Service.Services.Implementations
 		private readonly IWaffleRepository _waffleRepository;
 		private readonly ICartRepository _cartRepository;
 		private readonly StringToGuidMapper _guidMapper;
+		private readonly IUserService _userService;
 
-		public OrderService(IOrderRepository orderRepository, IOrderWaffleRepository orderWaffleRepository, IWaffleRepository waffleRepository, ICartRepository cartRepository, StringToGuidMapper guidMapper) =>
-			(_orderRepository, _orderWaffleRepository, _waffleRepository, _cartRepository, _guidMapper) = (orderRepository, orderWaffleRepository, waffleRepository, cartRepository, guidMapper);
+		public OrderService(IOrderRepository orderRepository, IOrderWaffleRepository orderWaffleRepository, IWaffleRepository waffleRepository, ICartRepository cartRepository, StringToGuidMapper guidMapper, IUserService userService)
+		{
+			_userService = userService;
+			(_orderRepository, _orderWaffleRepository, _waffleRepository, _cartRepository, _guidMapper) = (
+				orderRepository, orderWaffleRepository, waffleRepository, cartRepository, guidMapper);
+		}
 
 		public async Task<OrderWaffle> AddWaffleToOrder(Guid orderId, Guid waffleId)
 		{
@@ -166,6 +171,7 @@ namespace Waffles_Club.Service.Services.Implementations
                 var orderListViewModel = new OrderListViewModel
                 {
                     Id = order.Id,
+                    UserName=(await _userService.GetById(order.UserId.ToString())).Name,
                     Date = order.Date,
                     Carts = cartsListViewModels.ToList(),
                     Status = order.OrderStatus

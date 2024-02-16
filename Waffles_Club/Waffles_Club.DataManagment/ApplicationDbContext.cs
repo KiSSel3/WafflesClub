@@ -35,5 +35,19 @@ public class ApplicationDbContext : DbContext
             Id = new Guid("9E7BF79C-BF94-4B40-A4F6-A3660E9DFD4A"),
             Name = "Admin"
         });
+        modelBuilder.Entity<User>().HasData(new User()
+        {
+            Email = "alsemkovbn@gmail.com",
+            Id = new Guid("DB571F33-8399-4B5D-A210-07FF85B784EE"),
+            Login = "Admin",
+            Name = "Admin",
+            Password = "123498Admin"
+        });
+        modelBuilder.Entity<RoleUser>().HasData(new RoleUser()
+        {
+            RoleId = new Guid("9E7BF79C-BF94-4B40-A4F6-A3660E9DFD4A"),
+            UserId = new Guid("DB571F33-8399-4B5D-A210-07FF85B784EE"),
+            Id = Guid.NewGuid()
+        });
     }
 }
